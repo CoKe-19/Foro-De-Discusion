@@ -19,9 +19,11 @@
          <li>
             <article>
                <strong>{{ resp.usuario.username }}</strong>: {{ resp.contenido }} - {{ resp.fecha|date:"d/m/Y" }}
-               {% if user == resp.usuario or user.is_staff %}
-               <a href="{% url 'eliminar_respuesta' resp.id %}" class="btn-brand">Eliminar</a>
+               {% if user == resp.usuario %}
                <a href="{% url 'editar_respuesta' resp.id %}" class="btn-brand">Editar</a>
+               <a href="{% url 'eliminar_respuesta' resp.id %}" class="btn-brand">Eliminar</a>
+               {% elif user.is_staff %}
+               <a href="{% url 'eliminar_respuesta' resp.id %}" class="btn-brand">Eliminar</a>
                {% endif %}
             </article>
          </li>
