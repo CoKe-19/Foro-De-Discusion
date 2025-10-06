@@ -1,0 +1,37 @@
+{% extends "hilos/base.html" %}
+{% load static %}
+{% block content %}
+<section class="card">
+   <header>
+      <h2>Hilos Públicos</h2>
+   </header>
+   <table class="tabla-usuarios">
+      <thead>
+         <tr>
+            <th>Título</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for hi in hilos %}
+         <tr>
+            <td>{{ hi.titulo }}</td>
+            <td>{{ hi.usuario.username }}</td>
+            <td>{{ hi.fecha|date:"d/m/Y" }}</td>
+            <td>{{ hi.categoria }}</td>
+            <td>
+               <a href="{% url 'detalle_hilo' hi.id %}" class="btn-brand">Ver</a>
+            </td>
+         </tr>
+         {% empty %}
+         <tr>
+            <td colspan="5">No hay hilos disponibles.</td>
+         </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+</section>
+{% endblock %}

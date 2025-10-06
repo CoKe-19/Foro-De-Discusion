@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+   <head>
+      <meta charset="UTF-8">
+      <title>{% block title %}Foro de Hilos{% endblock %}</title>
+      <link rel="stylesheet" href="{% static 'foro/css/style.css' %}">
+   </head>
+   <body>
+      <h1>Bienvenido al Foro GamerCoke!</h1>
+      <!-- Navegación -->
+      <nav>
+         <ul>
+            <li><a href="{% url 'pagina_principal' %}">Inicio</a></li>
+            <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'lista_hilos' %}">Explorar Hilos</a></li>
+            <li><a href="{% url 'mis_hilos' %}">Mis Hilos</a></li>
+            <li><a href="{% url 'registrar_hilo' %}">Crear Hilo</a></li>
+            <li><a href="{% url 'lista_usuarios' %}">Miembros del Foro</a></li>
+            {% if user.is_staff %}
+            <li><a href="{% url 'administrar_hilos' %}">Administrar Hilos</a></li>
+            <li><a href="{% url 'lista_categorias' %}">Administrar Categorías</a></li>
+            {% endif %}
+            <!-- Logout por POST -->
+            <li>
+               <form method="get" action="{% url 'lista_hilos' %}" style="display:flex; align-items:center;">
+                  <input type="text" name="q" placeholder="Buscar hilos..." value="{{ request.GET.q|default:'' }}" required>
+                  <button type="submit" class="btn-buscar">Buscar</button>
+               </form>
+            </li>
+            <li>
+               <form method="post" action="{% url 'logout' %}" style="display:inline">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-salir">
+                  Salir ({{ user.username }}{% if user.is_staff %} - Staff{% endif %})
+                  </button>
+               </form>
+            </li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+            <li><a href="{% url 'registrar_usuario' %}">Registrar Usuario</a></li>
+            {% endif %}
+         </ul>
+      </nav>
+      <!-- Encabezado -->
+      <header>
+         <div class="banner">
+            <img src="{% static 'foro/img/bannergamer.jpg' %}" alt="Banner Foro">
+         </div>
+         <p>Explora, crea y opina sobre los hilos de la comunidad.</p>
+      </header>
+      <main>
+         <!-- Bloque de mensajes -->
+         {% if messages %}
+         <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">
+               {{ message }}
+            </div>
+            {% endfor %}
+         </div>
+         {% endif %}
+         {% block content %}{% endblock %}
+      </main>
+      <!-- Footer -->
+      <footer>
+         <div class="footer-content">
+            <p>&copy; 2025 Foro GamerCoke</p>
+            <div class="footer-icons">
+               <a href="https://discord.com" target="_blank" rel="noopener">
+               <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
+               </a>
+               <a href="https://facebook.com" target="_blank" rel="noopener">
+               <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+               </a>
+            </div>
+         </div>
+      </footer>
+   </body>
+</html>

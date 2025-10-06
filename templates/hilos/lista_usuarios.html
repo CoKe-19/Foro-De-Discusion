@@ -1,0 +1,31 @@
+{% extends "hilos/base.html" %}
+{% block title %}Miembros{% endblock %}
+{% block content %}
+<section class="card">
+   <h2>Lista de Miembros</h2>
+   {% if usuarios %}
+   <table class="tabla-usuarios">
+      <thead>
+         <tr>
+            <th>Usuario</th>
+            <th># Hilos</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for u in usuarios %}
+         <tr>
+            <td>{{ u.username }}</td>
+            <td>{{ u.hilos.count }}</td>
+         </tr>
+         {% empty %}
+         <tr>
+            <td colspan="2">No hay usuarios registrados.</td>
+         </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+   {% else %}
+   <p>No hay usuarios registrados.</p>
+   {% endif %}
+</section>
+{% endblock %}

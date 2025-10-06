@@ -1,0 +1,23 @@
+{% extends "hilos/base.html" %}
+{% load static %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block content %}
+<section class="card" style="max-width:500px; margin:2rem auto;">
+   <header>
+      <h1>{{ titulo }}</h1>
+      {% if descripcion %}
+      <p>{{ descripcion }}</p>
+      {% endif %}
+   </header>
+   <form method="post" class="form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-brand">{{ boton_texto|default:"Guardar" }}</button>
+   </form>
+   {% if volver_url %}
+   <p style="margin-top:1rem;">
+      <a href="{% url volver_url %}" class="btn-secondary">Volver a la lista</a>
+   </p>
+   {% endif %}
+</section>
+{% endblock %}

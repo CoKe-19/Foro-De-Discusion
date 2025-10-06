@@ -1,0 +1,27 @@
+{% extends "hilos/base.html" %}
+{% block title %}Confirmar Eliminación{% endblock %}
+{% block content %}
+<section class="card">
+   <h2>Confirmar Eliminación</h2>
+   {% if hilo %}
+   <p>¿Estás seguro de que quieres eliminar el hilo <strong>"{{ hilo.titulo }}"</strong>?</p>
+   <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn-danger">Sí, eliminar</button>
+      <a href="{% url 'detalle_hilo' hilo_id=hilo.id %}" class="btn-brand">Cancelar</a>
+   </form>
+   {% elif respuesta %}
+   {% if user == respuesta.usuario %}
+   <p>Estás a punto de eliminar tu propia respuesta:</p>
+   {% elif user.is_staff %}
+   <p>Estás a punto de eliminar la respuesta de otro usuario:</p>
+   {% endif %}
+   <blockquote>"{{ respuesta.contenido }}"</blockquote>
+   <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn-danger">Sí, eliminar</button>
+      <a href="{% url 'detalle_hilo' hilo_id=respuesta.hilo.id %}" class="btn-brand">Cancelar</a>
+   </form>
+   {% endif %}
+</section>
+{% endblock %}

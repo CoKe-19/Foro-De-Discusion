@@ -1,0 +1,42 @@
+{% extends "hilos/base.html" %}
+{% load static %}
+{% block content %}
+<section class="card">
+   <header>
+      <h1>{{ hilo.titulo }}</h1>
+      <p>Creado por: <strong>{{ hilo.usuario.username }}</strong> 
+         Fecha: {{ hilo.fecha|date:"d/m/Y" }} 
+         Categoría: {{ hilo.categoria.nombre }}
+      </p>
+   </header>
+   <section class="contenido-hilo">
+      <p>{{ hilo.contenido }}</p>
+   </section>
+   <section>
+      <h2>Respuestas</h2>
+      <ul>
+         {% for resp in hilo.respuestas.all %}
+         <li>
+            <article>
+               <strong>{{ resp.usuario.username }}</strong>: {{ resp.contenido }} - {{ resp.fecha|date:"d/m/Y" }}
+               {% if user == resp.usuario or user.is_staff %}
+               <a href="{% url 'eliminar_respuesta' resp.id %}" class="btn-brand">Eliminar</a>
+               <a href="{% url 'editar_respuesta' resp.id %}" class="btn-brand">Editar</a>
+               {% endif %}
+            </article>
+         </li>
+         {% empty %}
+         <li>No hay respuestas aún. Sé el primero en comentar!</li>
+         {% endfor %}
+      </ul>
+   </section>
+   <section>
+      <h2>Agregar Respuesta</h2>
+      <form method="post" class="form">
+         {% csrf_token %}
+         {{ form.as_p }}
+         <button type="submit" class="btn-brand">Enviar</button>
+      </form>
+   </section>
+</section>
+{% endblock %}

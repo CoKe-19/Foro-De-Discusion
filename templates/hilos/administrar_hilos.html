@@ -1,0 +1,34 @@
+{% extends "hilos/base.html" %}
+{% block title %}Administrar Hilos{% endblock %}
+{% block content %}
+<section>
+   <h2>Panel de Administración de Hilos</h2>
+   <h3>Todos los Hilos</h3>
+   <table class="tabla-usuarios">
+      <thead>
+         <tr>
+            <th>Título</th>
+            <th>Publicado por</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for hilo in hilos %}
+         <tr>
+            <td>{{ hilo.titulo }}</td>
+            <td>{{ hilo.usuario.username }}</td>
+            <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
+            <td>
+               <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-danger">Eliminar</a>
+            </td>
+         </tr>
+         {% empty %}
+         <tr>
+            <td colspan="4">No hay hilos para mostrar.</td>
+         </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+</section>
+{% endblock %}

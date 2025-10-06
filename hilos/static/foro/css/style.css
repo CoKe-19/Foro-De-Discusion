@@ -1,0 +1,212 @@
+/* fondo general */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #9d97f7);
+  color: #333;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+
+main { flex: 1 0 auto; }
+
+/* Cabecera */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+header h1 {
+  font-size: 2.8rem;
+  color: #37474f;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+header p { font-size: 1.3rem; color:#607d8b; font-weight:500; }
+
+/* Navegación */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  margin-bottom: 2.5rem;
+}
+nav ul li a {
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg,#81d4fa,#b2ebf2);
+  color: #37474f;
+  box-shadow: 0 4px 8px rgba(129,212,250,0.3);
+  transition: transform 0.2s, box-shadow 0.3s;
+  display: inline-block;
+}
+nav ul li a:hover { transform: translateY(-3px); box-shadow:0 12px 25px rgba(129,212,250,0.4);}
+nav ul li a:active { transform: scale(0.95); box-shadow:none; }
+
+/* Secciones */
+section {
+  background: #ffffffee;
+  padding: 2rem 2.5rem;
+  border-radius: 20px;
+  box-shadow:0 12px 28px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 620px;
+  margin-bottom: 2.5rem;
+  animation: fadeIn 0.8s ease;
+  transition: box-shadow 0.3s;
+}
+section:hover { box-shadow:0 20px 40px rgba(0,0,0,0.15); }
+section h2, section h3 { text-align:center; color:#37474f; margin-bottom:1.2rem; font-weight:700; }
+section ul { padding-left:1.8rem; color:#555; line-height:1.5; font-size:1.1rem; }
+
+/* Formularios */
+form { display:flex; flex-direction:column; gap:1rem; }
+form input[type=text], form input[type=password], form input[type=email], form textarea {
+  padding:0.8rem 1rem;
+  border-radius:12px;
+  border:1px solid #b0bec5;
+  font-size:1rem;
+  outline:none;
+  transition:border-color 0.2s, box-shadow 0.2s;
+}
+form input:focus, form textarea:focus {
+  border-color:#4fc3f7;
+  box-shadow:0 0 8px rgba(79,195,247,0.4);
+}
+
+/* Botones (general y variantes) */
+.btn, .btn-brand, .btn-buscar, .btn-salir {
+  display:inline-block;
+  font-weight:600;
+  cursor:pointer;
+  text-align:center;
+  border:none;
+  border-radius:16px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+.btn-brand {
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg,#4fc3f7,#81d4fa);
+  color:#fff;
+  box-shadow: 0 4px 12px rgba(79,195,247,0.3);
+}
+.btn-brand:hover { transform: translateY(-2px); box-shadow:0 10px 20px rgba(79,195,247,0.4); }
+.btn-brand:active { transform: scale(0.95); box-shadow:none; }
+
+.btn-buscar {
+  padding: 0.7rem 1.5rem;
+  background-color:#007bff;
+  color:white;
+  border-radius:16px;
+  line-height:1;
+}
+.btn-salir {
+  padding: 0.7rem 1.5rem;
+  background-color:#750404;
+  color:white;
+  border-radius:16px;
+  line-height:1;
+}
+
+/* Animación unificada */
+@keyframes fadeIn { from{opacity:0; transform:translateY(-15px);} to{opacity:1; transform:translateY(0);} }
+
+/* Responsive */
+@media (max-width:500px){
+  section { padding:1.5rem 1.8rem; }
+  nav ul { flex-direction:column; gap:1rem; }
+  .tabla-usuarios, form { width:100%; overflow-x:auto; display:block; }
+}
+
+/* FAQ */
+#faq { max-width:700px; margin:30px auto; padding:10px; font-family:Arial,sans-serif; }
+#faq h2 { text-align:center; margin-bottom:20px; color:#333; }
+#faq details { background:#e0f7fa; margin-bottom:15px; padding:15px 20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); cursor:pointer; transition: background 0.3s; }
+#faq details:hover { background:#b2ebf2; }
+#faq summary { font-weight:bold; outline:none; font-size:1.1em; }
+#faq p { margin-top:10px; color:#555; }
+
+/* Tabla usuarios */
+.tabla-usuarios { width:100%; border-collapse:collapse; font-family:inherit; }
+.tabla-usuarios th, .tabla-usuarios td { border:1px solid #b0bec5; padding:8px; text-align:left; }
+.tabla-usuarios th { background:#81d4fa; color:#37474f; }
+.tabla-usuarios tr:nth-child(even) { background:#f0f4c3; }
+
+/* Imágenes generales */
+img { max-width:150px; max-height:150px; width:auto; height:auto; display:block; margin:0 auto; object-fit:contain; }
+
+/* Banner */
+.banner { width:100%; max-width:1200px; height:auto; margin:0 auto; overflow:hidden; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+.banner img { width:100%; max-width:100%; height:300px; object-fit:cover; display:block; margin:0; }
+
+/* Footer */
+footer {
+  background: linear-gradient(135deg,#81d4fa,#b2ebf2);
+  color:#37474f;
+  border-radius:20px 20px 0 0;
+  box-shadow:0 -6px 25px rgba(129,212,250,0.3);
+  padding:0.3rem 1.5rem; 
+  width:100%;
+}
+footer .footer-content {
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 2rem;
+}
+footer .footer-icons a img { width:20px; height:20px; margin-left:10px; vertical-align:middle; transition:transform 0.2s; }
+footer .footer-icons a img:hover { transform: scale(1.2); }
+
+/* Botón de eliminar */
+.btn-danger {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg,#f44336,#e57373);
+    color: #fff;
+    border-radius: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    box-shadow: 0 4px 12px rgba(244,67,54,0.3);
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(244,67,54,0.4);
+}
+
+.btn-danger:active {
+    transform: scale(0.95);
+    box-shadow: none;
+}
+
+
+/* Mensajes */
+.messages { max-width: 800px; margin: 20px auto; padding: 0; }
+.message {
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    animation: fadeIn 0.5s ease-in-out;
+}
+.message.success { background-color: #4CAF50; }
+.message.error { background-color: #f44336; }
+.message.warning { background-color: #ff9800; color: #000; }
+.message.info { background-color: #2196F3; }

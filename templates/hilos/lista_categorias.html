@@ -1,0 +1,31 @@
+{% extends "hilos/base.html" %}
+{% block title %}Lista de Categorías{% endblock %}
+{% block content %}
+<section class="card">
+   <h2>Categorías</h2>
+   <a href="{% url 'crear_categoria' %}" class="btn-brand">Crear Nueva Categoría</a>
+   <table class="tabla-usuarios">
+      <thead>
+         <tr>
+            <th>Nombre</th>
+            <th>Acciones</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for cat in categorias %}
+         <tr>
+            <td>{{ cat.nombre }}</td>
+            <td>
+               <a href="{% url 'editar_categoria' cat.id %}" class="btn-brand">Editar</a>
+               <a href="{% url 'eliminar_categoria' cat.id %}" class="btn-danger">Eliminar</a>
+            </td>
+         </tr>
+         {% empty %}
+         <tr>
+            <td colspan="2">No hay categorías.</td>
+         </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+</section>
+{% endblock %}

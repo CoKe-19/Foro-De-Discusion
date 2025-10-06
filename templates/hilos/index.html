@@ -1,0 +1,79 @@
+{% extends "hilos/base.html" %}
+{% load static %}
+{% block title %}Inicio - Foro de Hilos{% endblock %}
+{% block content %}
+<section>
+   <h2>¿Qué puedes aqui ?</h2>
+   <img src="{% static 'foro/img/grupo.png' %}" alt="Grupo">
+   <ul>
+      <li>Revisar los hilos existentes.</li>
+      <li>Crear un nuevo hilo con título y usuario.</li>
+      <li>Comentar en los hilos.</li>
+      <li>Seguir hilos para recibir notificaciones de nuevas respuestas.</li>
+   </ul>
+</section>
+<section id="consejos">
+   <div class="container">
+      <h2 class="section-title">Reglas Básicas del Foro</h2>
+      <p class="section-sub">Para mantener la comunidad agradable y segura, sigue estas normas simples.</p>
+      <div class="grid-horizontal">
+         <!-- Regla 1 -->
+         <article class="card" aria-label="Respeto">
+            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077046.png" alt="Icono de respeto" style="width:80px; margin:auto; display:block;" />
+            <div class="card-body">
+               <strong>Respeto Mutuo</strong>
+               <p class="small">Trata a todos los miembros con cortesía y evita comentarios ofensivos o discriminatorios.</p>
+            </div>
+         </article>
+         <!-- Regla 2 -->
+         <article class="card" aria-label="Contenido">
+            <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Icono de contenido" style="width:80px; margin:auto; display:block;" />
+            <div class="card-body">
+               <strong>Contenido Adecuado</strong>
+               <p class="small">Publica únicamente contenido relevante y apropiado para la comunidad. Nada de spam o publicidad excesiva.</p>
+            </div>
+         </article>
+         <!-- Regla 3 -->
+         <article class="card" aria-label="Colaboración">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Icono de colaboración" style="width:80px; margin:auto; display:block;" />
+            <div class="card-body">
+               <strong>Participación Activa</strong>
+               <p class="small">Ayuda y contribuye con comentarios útiles, responde preguntas y colabora para mejorar la comunidad.</p>
+            </div>
+         </article>
+      </div>
+   </div>
+</section>
+<section id="informativo">
+   <h2>Sobre nuestro foro</h2>
+   <img src="{% static 'foro/img/community.jpg' %}" alt="Comunidad">
+   <p>
+      Este foro está diseñado para que los usuarios compartan ideas, resuelvan dudas y mantengan una comunicación fluida. 
+      Puedes explorar diferentes temas, aprender de otros usuarios y contribuir con tu conocimiento.
+   </p>
+   <p>
+      ¡No olvides revisar las reglas básicas de la comunidad y disfrutar de una experiencia amigable y constructiva!
+   </p>
+</section>
+<section id="faq">
+   <h2>Preguntas Frecuentes</h2>
+   <img src="{% static 'foro/img/duda.jpg' %}" alt="Dudas">
+   <details>
+      <summary>¿Cómo creo un nuevo hilo?</summary>
+      <p>Para crear un nuevo hilo, debes registrarte como usuario , luego inicias sesion. Ahora haz click en “Crear Hilo” en el menú, completa el título y el contenido, y presiona “Enviar”. Tu hilo aparecerá inmediatamente en la lista.</p>
+   </details>
+   <details>
+      <summary>¿Cómo puedo ver los hilos más recientes?</summary>
+      <p>Puedes ver los hilos más recientes en la sección “Ver hilos” de la página principal. Requiere Inicio de sesion previo para poder ver los hilos generales</p>
+   </details>
+   <details>
+      <summary>¿Puedo editar o eliminar mis hilos?</summary>
+      <p>Sí, puedes editar o eliminar únicamente los hilos que hayas creado. Para hacerlo, ve a “Mis Hilos” en el menú, selecciona el hilo que deseas modificar y haz click en “Eliminar”.</p>
+   </details>
+</section>
+<section class="card">
+   <h2>Estadísticas del Foro</h2>
+   <p>Total de hilos creados: <strong>{{ total_hilos }}</strong></p>
+   <p>Total de usuarios registrados: <strong>{{ total_usuarios }}</strong></p>
+</section>
+{% endblock %}

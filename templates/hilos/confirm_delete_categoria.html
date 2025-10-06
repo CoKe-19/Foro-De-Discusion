@@ -1,0 +1,13 @@
+{% extends "hilos/base.html" %}
+{% block title %}Eliminar Categoría{% endblock %}
+{% block content %}
+<section class="card">
+   <h2>Confirmar Eliminación</h2>
+   <p>¿Seguro que quieres eliminar la categoría "<strong>{{ categoria.nombre }}</strong>"?</p>
+   <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn-danger">Sí, eliminar</button>
+      <a href="{% url 'lista_categorias' %}" class="btn-brand">Cancelar</a>
+   </form>
+</section>
+{% endblock %}
