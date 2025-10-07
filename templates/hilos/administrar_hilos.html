@@ -15,14 +15,14 @@
       </thead>
       <tbody>
          {% for hilo in hilos %}
-         <tr>
-            <td>{{ hilo.titulo }}</td>
-            <td>{{ hilo.usuario.username }}</td>
-            <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
-            <td>
-               <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-danger">Eliminar</a>
-            </td>
-         </tr>
+            <tr>
+               <td>{{ hilo.titulo }}</td>
+               <td>{{ hilo.usuario.username }}</td>
+               <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
+               <td>
+                  <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-danger">Eliminar</a>
+               </td>
+            </tr>
          {% empty %}
          <tr>
             <td colspan="4">No hay hilos para mostrar.</td>

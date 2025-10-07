@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
-from .forms import HiloForm, UsuarioForm, RespuestaForm ,CategoriaForm
-from .models import Hilo , Respuesta , Categoria
+from .forms import HiloForm, UsuarioForm, RespuestaForm ,CategoriaForm , PerfilForm
+from .models import Hilo , Respuesta , Categoria , Like , Perfil
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -70,20 +70,36 @@ def registrar_usuario(request):
 @login_required(login_url="login")
 def detalle_hilo(request, hilo_id):
     hilo = get_object_or_404(Hilo, id=hilo_id)
-    if request.method == 'POST':
+
+    if request.method == "POST":
         form = RespuestaForm(request.POST)
         if form.is_valid():
             respuesta = form.save(commit=False)
             respuesta.usuario = request.user
             respuesta.hilo = hilo
             respuesta.save()
-            messages.success(request, "Respuesta publicada correctamente.") 
-            return redirect('detalle_hilo', hilo_id=hilo.id)
+            messages.success(request, "Respuesta publicada correctamente.")
+            return redirect("detalle_hilo", hilo_id=hilo.id)
         else:
-            messages.error(request, "Hubo un error al publicar la respuesta.")  
+            messages.error(request, "Hubo un error al publicar la respuesta.")
     else:
         form = RespuestaForm()
-    return render(request, 'hilos/detalle_hilo.html', {'hilo': hilo, 'form': form})
+
+    # Pre-calcular likes
+    respuestas_info = []
+    for resp in hilo.respuestas.all():
+        respuestas_info.append({
+            "respuesta": resp,
+            "ya_like": resp.likes.filter(usuario=request.user).exists(),  # <- usar related_name
+            "likes_count": resp.likes.count()
+        })
+
+    return render(request, "hilos/detalle_hilo.html", {
+        "hilo": hilo,
+        "form": form,
+        "respuestas_info": respuestas_info
+    })
+
 
 @login_required(login_url="login")
 def lista_usuarios(request):
@@ -227,3 +243,32 @@ def eliminar_categoria(request, categoria_id):
         return redirect('lista_categorias')
     return render(request, 'hilos/confirm_delete_categoria.html', {'categoria': categoria})
 
+@login_required(login_url="login")
+def like_respuesta(request, respuesta_id):
+    respuesta = get_object_or_404(Respuesta, id=respuesta_id)
+    like = Like.objects.filter(usuario=request.user, respuesta=respuesta).first()
+    if like:
+        like.delete()
+    else:
+        Like.objects.create(usuario=request.user, respuesta=respuesta)
+    return redirect("detalle_hilo", hilo_id=respuesta.hilo.id)
+
+def ver_perfil(request, username):
+    user = get_object_or_404(User, username=username)
+    perfil, created = Perfil.objects.get_or_create(user=user)
+    return render(request, 'hilos/ver_perfil.html', {'perfil': perfil})
+
+@login_required
+def completar_perfil(request):
+    # Si el usuario no tiene perfil, lo creamos
+    perfil, created = Perfil.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, request.FILES, instance=perfil)
+        if form.is_valid():
+            form.save()
+            return redirect('ver_perfil', username=request.user.username)
+    else:
+        form = PerfilForm(instance=perfil)
+
+    return render(request, 'hilos/completar_perfil.html', {'form': form})

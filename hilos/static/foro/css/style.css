@@ -56,7 +56,7 @@ nav ul li a:active { transform: scale(0.95); box-shadow:none; }
 
 /* Secciones */
 section {
-  background: #ffffffee;
+  background: #fdfdfdee;
   padding: 2rem 2.5rem;
   border-radius: 20px;
   box-shadow:0 12px 28px rgba(0,0,0,0.1);
@@ -210,3 +210,87 @@ footer .footer-icons a img:hover { transform: scale(1.2); }
 .message.error { background-color: #f44336; }
 .message.warning { background-color: #ff9800; color: #000; }
 .message.info { background-color: #2196F3; }
+
+/* Contenedor principal del perfil */
+.perfil-container {
+    max-width: 900px;       /* más ancho */
+    margin: 3rem auto;      /* más espacio arriba y abajo */
+    padding: 2rem;          /* padding mayor */
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    background-color: #f9f9f9; /* un fondo ligero */
+}
+
+/* Header del perfil (avatar + info) */
+.perfil-header {
+    display: flex;
+    align-items: flex-start; /* alinea arriba */
+    gap: 2rem;               /* más separación */
+}
+
+/* Avatar grande */
+.perfil-avatar img {
+    width: 250px;            /* más grande */
+    height: 250px;           /* más grande */
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #333;
+}
+
+/* Información del usuario */
+.perfil-info h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;         /* más grande */
+}
+
+.perfil-info p {
+    font-size: 1.3rem;       /* más grande y legible */
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Botón de editar */
+.perfil-botones {
+    margin-top: 1.5rem;
+}
+
+.perfil-botones .btn-perfil {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: #333;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background 0.3s;
+}
+
+.perfil-botones .btn-perfil:hover {
+    background-color: #555;
+}
+
+.btn-completar {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn-completar:hover {
+  background-color: #0056b3;
+}
+
+.perfil-aviso {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  text-align: center;
+}

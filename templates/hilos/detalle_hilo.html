@@ -15,20 +15,38 @@
    <section>
       <h2>Respuestas</h2>
       <ul>
-         {% for resp in hilo.respuestas.all %}
-         <li>
-            <article>
-               <strong>{{ resp.usuario.username }}</strong>: {{ resp.contenido }} - {{ resp.fecha|date:"d/m/Y" }}
-               {% if user == resp.usuario %}
-               <a href="{% url 'editar_respuesta' resp.id %}" class="btn-brand">Editar</a>
-               <a href="{% url 'eliminar_respuesta' resp.id %}" class="btn-brand">Eliminar</a>
-               {% elif user.is_staff %}
-               <a href="{% url 'eliminar_respuesta' resp.id %}" class="btn-brand">Eliminar</a>
+         {% for info in respuestas_info %}
+         <li style="display:flex; align-items:flex-start; margin-bottom:1rem;">
+            <div style="margin-right:0.5rem;">
+               {% if info.respuesta.usuario.perfil.avatar %}
+               <img src="{{ info.respuesta.usuario.perfil.avatar.url }}" alt="Avatar de {{ info.respuesta.usuario.username }}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+               {% else %}
+               <img src="{% static 'foro/img/default-face.png' %}" alt="Avatar por defecto" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                {% endif %}
-            </article>
+            </div>
+            <div>
+               <strong>{{ info.respuesta.usuario.username }}</strong>: {{ info.respuesta.contenido }} - {{ info.respuesta.fecha|date:"d/m/Y" }}
+               {% if user.is_authenticated %}
+               {% if info.ya_like %}
+               <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-like liked">❤️ {{ info.likes_count }}</button>
+               </form>
+               {% else %}
+               <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-like">🤍 {{ info.likes_count }}</button>
+               </form>
+               {% endif %}
+               {% endif %}
+               {% if user == info.respuesta.usuario %}
+               <a href="{% url 'editar_respuesta' info.respuesta.id %}" class="btn-brand">Editar</a>
+               <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-brand">Eliminar</a>
+               {% elif user.is_staff %}
+               <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-brand">Eliminar</a>
+               {% endif %}
+            </div>
          </li>
-         {% empty %}
-         <li>No hay respuestas aún. Sé el primero en comentar!</li>
          {% endfor %}
       </ul>
    </section>

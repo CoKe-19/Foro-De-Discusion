@@ -1,0 +1,53 @@
+{% extends "hilos/base.html" %}
+{% load static %}
+{% block title %}Perfil de {{ perfil.user.username }}{% endblock %}
+{% block content %}
+<section class="perfil-container" style="max-width:800px; margin:2rem auto; padding:1.5rem; border:1px solid #ccc; border-radius:10px; background-color:#f9f9f9;">
+   <div class="perfil-header" style="display:flex; gap:2rem; align-items:flex-start;">
+      <!-- Avatar -->
+      <div class="perfil-avatar" style="flex:0 0 150px;">
+         {% if perfil.avatar %}
+         <img src="{{ perfil.avatar.url }}" alt="Avatar de {{ perfil.user.username }}" style="width:150px; height:150px; border-radius:50%; object-fit:cover; border:2px solid #333;">
+         {% else %}
+         <img src="{% static 'foro/img/default-face.png' %}" alt="Avatar por defecto" style="width:150px; height:150px; border-radius:50%; object-fit:cover; border:2px solid #333;">
+         {% endif %}
+      </div>
+      <!-- Información del usuario -->
+      <div class="perfil-info" style="flex:1;">
+         <h2>{{ perfil.user.username }}</h2>
+         {% if perfil.user.is_staff %}
+         <p style="color:red; font-weight:bold;">Este usuario es Staff</p>
+         {% endif %}
+         {% if not perfil.apodo and not perfil.bio and not perfil.ubicacion and not perfil.email %}
+         {% if user == perfil.user %}
+         <div class="perfil-aviso" style="padding:1rem; border:1px solid #ccc; border-radius:8px; background-color:#eee; margin-top:1rem;">
+            <p><strong>¡Bienvenido!</strong> Aún no has completado tu perfil.</p>
+            <p>Por favor, rellena tu información para personalizar tu cuenta.</p>
+            <a href="{% url 'completar_perfil' %}" class="btn-completar" style="display:inline-block; padding:0.5rem 1rem; background:#333; color:#fff; border-radius:6px; text-decoration:none; margin-top:0.5rem;">Completar perfil</a>
+         </div>
+         {% else %}
+         <p>Este usuario aún no ha completado su perfil.</p>
+         {% endif %}
+         {% else %}
+         {% if perfil.apodo %}
+         <p><strong>Apodo:</strong> {{ perfil.apodo }}</p>
+         {% endif %}
+         {% if perfil.bio %}
+         <p><strong>Bio:</strong> {{ perfil.bio }}</p>
+         {% endif %}
+         {% if perfil.ubicacion %}
+         <p><strong>Ubicación:</strong> {{ perfil.ubicacion }}</p>
+         {% endif %}
+         {% if perfil.email %}
+         <p><strong>Email:</strong> {{ perfil.email }}</p>
+         {% endif %}
+         {% if user.is_authenticated and user == perfil.user %}
+         <div class="perfil-botones" style="margin-top:1rem;">
+            <a href="{% url 'completar_perfil' %}" class="btn-perfil" style="padding:0.5rem 1rem; background:#333; color:#fff; border-radius:6px; text-decoration:none;">Editar perfil</a>
+         </div>
+         {% endif %}
+         {% endif %}
+      </div>
+   </div>
+</section>
+{% endblock %}

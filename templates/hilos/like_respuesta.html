@@ -1,0 +1,11 @@
+{% extends "hilos/base.html" %}
+{% block title %}Administrar Hilos{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'like_respuesta' resp.id %}" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn-like">
+    👍 {{ resp.like_set.count }}
+  </button>
+</form>
+{% endfor %}
+{% endblock %}

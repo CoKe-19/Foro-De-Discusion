@@ -1,5 +1,5 @@
 from django import forms
-from .models import Hilo, Respuesta ,Categoria
+from .models import Hilo, Respuesta ,Categoria , Perfil
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
@@ -42,3 +42,8 @@ class CategoriaForm(forms.ModelForm):
         if len(nombre) < 3:
             raise forms.ValidationError("El nombre debe tener al menos 3 caracteres.")
         return nombre
+
+class PerfilForm(forms.ModelForm):
+    class Meta:
+        model = Perfil
+        fields = ['avatar', 'apodo', 'bio', 'ubicacion', 'email']

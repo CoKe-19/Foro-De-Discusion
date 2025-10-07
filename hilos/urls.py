@@ -35,5 +35,8 @@ urlpatterns = [
     path('categorias/crear/', views.crear_categoria, name='crear_categoria'),
     path('categorias/<int:categoria_id>/editar/', views.editar_categoria, name='editar_categoria'),
     path('categorias/<int:categoria_id>/eliminar/', views.eliminar_categoria, name='eliminar_categoria'),
+    path('respuestas/<int:respuesta_id>/like/', views.like_respuesta, name='like_respuesta'),
+    path('perfil/completar/', views.completar_perfil, name='completar_perfil'),
+    path('perfil/<str:username>/', views.ver_perfil, name='ver_perfil'),
 
 ]

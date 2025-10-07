@@ -14,13 +14,14 @@
             <li><a href="{% url 'pagina_principal' %}">Inicio</a></li>
             <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
             {% if user.is_authenticated %}
+            <li><a href="{% url 'ver_perfil' user.username %}">Mi Perfil</a></li>
             <li><a href="{% url 'lista_hilos' %}">Explorar Hilos</a></li>
             <li><a href="{% url 'mis_hilos' %}">Mis Hilos</a></li>
             <li><a href="{% url 'registrar_hilo' %}">Crear Hilo</a></li>
-            <li><a href="{% url 'lista_usuarios' %}">Miembros del Foro</a></li>
             {% if user.is_staff %}
             <li><a href="{% url 'administrar_hilos' %}">Administrar Hilos</a></li>
             <li><a href="{% url 'lista_categorias' %}">Administrar Categorías</a></li>
+            <li><a href="{% url 'lista_usuarios' %}">Miembros del Foro</a></li>
             {% endif %}
             <!-- Logout por POST -->
             <li>
