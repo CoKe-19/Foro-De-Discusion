@@ -27,9 +27,9 @@
             {% endif %}
             <!-- Logout por POST -->
             <li>
-              <form action="{% url 'buscar' %}" method="get" class="search-form">
-               <input type="text" name="q" placeholder="Buscar..." value="{{ request.GET.q }}">
-               <button type="submit" class="btn-buscar">Buscar🔍</button>
+               <form method="get" action="{% url 'buscar' %}" class="form">
+                  <input type="text" name="query" placeholder="Escribe tu búsqueda..." required>
+                  <button type="submit" class="btn-brand">Buscar</button>
                </form>
             </li>
             <li>

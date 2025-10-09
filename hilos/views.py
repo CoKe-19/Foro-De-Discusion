@@ -270,11 +270,10 @@ def completar_perfil(request):
     return render(request, 'hilos/completar_perfil.html', {'form': form})
 
 def buscar(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get('query', '')
     resultados = []
     if query:
         resultados = Hilo.objects.filter(Q(titulo__icontains=query))
-        # Agregar resaltado en los títulos
         for hilo in resultados:
             hilo.titulo_resaltado = re.sub(
                 f'({re.escape(query)})',

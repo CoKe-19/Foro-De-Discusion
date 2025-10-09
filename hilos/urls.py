@@ -50,7 +50,7 @@ urlpatterns = [
     path('perfil/completar/', views.completar_perfil, name='completar_perfil'),
     path('perfil/<str:username>/', views.ver_perfil, name='ver_perfil'),
     path('buscar/', views.buscar, name='buscar'),
-    
+
      # URLs de la API
     path('api/saludo/', saludo),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

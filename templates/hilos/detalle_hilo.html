@@ -37,17 +37,23 @@
                </div>
                <div class="botones-respuesta" style="display:flex; gap:0.3rem; flex-shrink:0; flex-wrap:wrap;">
                   {% if user.is_authenticated %}
-                  {% if info.ya_like %}
-                  <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post">
-                     {% csrf_token %}
-                     <button type="submit" class="btn-like liked">❤️ {{ info.likes_count }}</button>
-                  </form>
-                  {% else %}
-                  <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post">
-                     {% csrf_token %}
-                     <button type="submit" class="btn-like">🤍 {{ info.likes_count }}</button>
-                  </form>
-                  {% endif %}
+                     {% if info.ya_like %}
+                        <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post">
+                           {% csrf_token %}
+                           <button type="submit" class="btn-like liked">❤️ {{ info.likes_count }}</button>
+                        </form>
+                     {% else %}
+                        <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post">
+                           {% csrf_token %}
+                           <button type="submit" class="btn-like">🤍 {{ info.likes_count }}</button>
+                        </form>
+                     {% endif %}
+                     {% if user == info.respuesta.usuario %}
+                        <a href="{% url 'editar_respuesta' info.respuesta.id %}" class="btn-brand">Editar</a>
+                        <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-danger">Eliminar</a>
+                     {% elif user.is_staff %}
+                        <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-danger">Eliminar</a>
+                     {% endif %}
                   {% endif %}
                </div>
             </div>

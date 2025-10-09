@@ -42,6 +42,10 @@ header h1 {
     text-shadow: 0 1px 3px rgba(253, 253, 253, 0.2);
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
+    ord-break: break-word;    /* ya lo tenemos */
+    overflow-wrap: break-word; /* ya lo tenemos */
+    hyphens: auto;             /* añade guiones automáticos */
+    font-size: clamp(1.5rem, 2.5vw, 2.8rem); /* reduce tamaño en pantallas pequeñas */
 }
 
 header p {
@@ -215,7 +219,6 @@ form input:focus, form textarea:focus {
 #faq summary { font-weight: bold; outline: none; font-size: 1.1em; }
 #faq p { margin-top: 10px; color: #555; }
 
-/* ===== Tablas ===== */
 .tabla-usuarios {
     width: 100%;
     border-collapse: separate;
@@ -223,22 +226,34 @@ form input:focus, form textarea:focus {
     font-family: 'Roboto', sans-serif;
     background-color: #f9f9f9;
 }
+
 .tabla-usuarios th, .tabla-usuarios td {
     border: none;
     padding: 12px 15px;
     text-align: left;
     border-radius: 5px;
+    vertical-align: middle;      /* centra el contenido vertical */
 }
+
 .tabla-usuarios th {
     background: linear-gradient(135deg, #1a1a2e, #162447);
     color: #f1f1f1;
 }
-.tabla-usuarios tr {
-    transition: none;
+
+.tabla-usuarios td {
+    word-break: break-word;      /* rompe palabras largas */
+    overflow-wrap: break-word;
 }
-.tabla-usuarios tr:hover {
-    transform: none;
-    box-shadow: none; 
+
+/* Columna de acciones (botones) */
+.tabla-usuarios td.acciones {
+    white-space: nowrap;  /* mantiene los botones en una fila */
+    text-align: right;    /* opcional: alinear botones a la derecha */
+}
+
+/* Mantener Categoría en la misma fila */
+.tabla-usuarios td.categoria {
+    white-space: nowrap;
 }
 
 /* ===== Imágenes ===== */
@@ -380,8 +395,12 @@ blockquote {
 
 .contenido-hilo, .respuestas {
     padding: 1.5rem 2rem;     
-    max-width: 620px;          
+    width: 100%;            /* ocupar todo el ancho permitido */
+    max-width: 620px;       /* ancho máximo */
     margin-bottom: 2.5rem;     
     border-radius: 20px;       
     box-shadow: 0 12px 28px rgba(0,0,0,0.1); 
+    word-break: break-word; /* evita que el contenido se salga */
+    overflow-wrap: break-word; 
+    box-sizing: border-box; /* incluye padding en el ancho */
 }
