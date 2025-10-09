@@ -1,7 +1,7 @@
 {% extends "hilos/base.html" %}
 {% block title %}Mis Hilos{% endblock %}
 {% block content %}
-<section>
+<section class="card">
    <h2>Mis Hilos</h2>
    <table class="tabla-usuarios">
       <thead>
@@ -18,9 +18,9 @@
             <td>{{ hilo.titulo }}</td>
             <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
             <td>{{ hilo.categoria.nombre }}</td>
-            <td>
+            <td style="white-space: nowrap;">
                <a href="{% url 'editar_hilo' hilo.id %}" class="btn-brand">Editar</a>
-               <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-brand">Eliminar</a>
+               <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-danger">Eliminar</a>
             </td>
          </tr>
          {% empty %}

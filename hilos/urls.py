@@ -14,8 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, include
 from .import views
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .api_views import CategoriaViewSet, HiloViewSet, RespuestaViewSet, saludo
+from rest_framework.routers import DefaultRouter
+
+# Configuración del router de DRF
+router = DefaultRouter()
+router.register('categorias', CategoriaViewSet)
+router.register('hilos', HiloViewSet)
+router.register('respuestas', RespuestaViewSet)
+
 
 urlpatterns = [
     path('', views.pagina_principal ,name="pagina_principal"),
@@ -35,8 +46,16 @@ urlpatterns = [
     path('categorias/crear/', views.crear_categoria, name='crear_categoria'),
     path('categorias/<int:categoria_id>/editar/', views.editar_categoria, name='editar_categoria'),
     path('categorias/<int:categoria_id>/eliminar/', views.eliminar_categoria, name='eliminar_categoria'),
-    path('respuestas/<int:respuesta_id>/like/', views.like_respuesta, name='like_respuesta'),
+    path('respuesta/<int:respuesta_id>/like/', views.like_respuesta, name='like_respuesta'),
     path('perfil/completar/', views.completar_perfil, name='completar_perfil'),
     path('perfil/<str:username>/', views.ver_perfil, name='ver_perfil'),
+    path('buscar/', views.buscar, name='buscar'),
+    
+     # URLs de la API
+    path('api/saludo/', saludo),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', include(router.urls)), 
 
+    
 ]

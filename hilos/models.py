@@ -44,7 +44,7 @@ class Like(models.Model):
 
     class Meta:
         unique_together = ('usuario', 'respuesta')
-
+        
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.contrib import messages 
+import re
 
 User = get_user_model() 
 
@@ -84,13 +85,11 @@ def detalle_hilo(request, hilo_id):
             messages.error(request, "Hubo un error al publicar la respuesta.")
     else:
         form = RespuestaForm()
-
-    # Pre-calcular likes
     respuestas_info = []
     for resp in hilo.respuestas.all():
         respuestas_info.append({
             "respuesta": resp,
-            "ya_like": resp.likes.filter(usuario=request.user).exists(),  # <- usar related_name
+            "ya_like": resp.likes.filter(usuario=request.user).exists(), 
             "likes_count": resp.likes.count()
         })
 
@@ -260,9 +259,7 @@ def ver_perfil(request, username):
 
 @login_required
 def completar_perfil(request):
-    # Si el usuario no tiene perfil, lo creamos
     perfil, created = Perfil.objects.get_or_create(user=request.user)
-
     if request.method == 'POST':
         form = PerfilForm(request.POST, request.FILES, instance=perfil)
         if form.is_valid():
@@ -270,5 +267,19 @@ def completar_perfil(request):
             return redirect('ver_perfil', username=request.user.username)
     else:
         form = PerfilForm(instance=perfil)
-
     return render(request, 'hilos/completar_perfil.html', {'form': form})
+
+def buscar(request):
+    query = request.GET.get('q', '')
+    resultados = []
+    if query:
+        resultados = Hilo.objects.filter(Q(titulo__icontains=query))
+        # Agregar resaltado en los títulos
+        for hilo in resultados:
+            hilo.titulo_resaltado = re.sub(
+                f'({re.escape(query)})',
+                r'<mark>\1</mark>',
+                hilo.titulo,
+                flags=re.IGNORECASE
+            )
+    return render(request, 'hilos/buscar.html', {'resultados': resultados, 'query': query})

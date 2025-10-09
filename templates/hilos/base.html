@@ -7,7 +7,9 @@
       <link rel="stylesheet" href="{% static 'foro/css/style.css' %}">
    </head>
    <body>
-      <h1>Bienvenido al Foro GamerCoke!</h1>
+      <header>
+         <h1 class="titulo-principal">Foro Gamer Coke</h1>
+      </header>
       <!-- Navegación -->
       <nav>
          <ul>
@@ -25,16 +27,16 @@
             {% endif %}
             <!-- Logout por POST -->
             <li>
-               <form method="get" action="{% url 'lista_hilos' %}" style="display:flex; align-items:center;">
-                  <input type="text" name="q" placeholder="Buscar hilos..." value="{{ request.GET.q|default:'' }}" required>
-                  <button type="submit" class="btn-buscar">Buscar</button>
+              <form action="{% url 'buscar' %}" method="get" class="search-form">
+               <input type="text" name="q" placeholder="Buscar..." value="{{ request.GET.q }}">
+               <button type="submit" class="btn-buscar">Buscar🔍</button>
                </form>
             </li>
             <li>
                <form method="post" action="{% url 'logout' %}" style="display:inline">
                   {% csrf_token %}
-                  <button type="submit" class="btn-salir">
-                  Salir ({{ user.username }}{% if user.is_staff %} - Staff{% endif %})
+                  <button type="submit" class="btn-danger">
+                  Salir ({{ user.username }}){% if user.is_staff %} - Rol (Staff){% endif %}
                   </button>
                </form>
             </li>

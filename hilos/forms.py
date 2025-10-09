@@ -43,7 +43,15 @@ class CategoriaForm(forms.ModelForm):
             raise forms.ValidationError("El nombre debe tener al menos 3 caracteres.")
         return nombre
 
+class CustomClearableFileInput(forms.ClearableFileInput):
+    initial_text = ""           
+    input_text = ""            
+    clear_checkbox_label = ""  
+
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = Perfil
         fields = ['avatar', 'apodo', 'bio', 'ubicacion', 'email']
+        widgets = {
+            'avatar': CustomClearableFileInput(),
+        }

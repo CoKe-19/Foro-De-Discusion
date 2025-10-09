@@ -14,9 +14,9 @@
       </div>
       <!-- Información del usuario -->
       <div class="perfil-info" style="flex:1;">
-         <h2>{{ perfil.user.username }}</h2>
+         <h2>Usuario : ({{ perfil.user.username }})</h2>
          {% if perfil.user.is_staff %}
-         <p style="color:red; font-weight:bold;">Este usuario es Staff</p>
+         <p style="color:red; font-weight:bold;">Rol : Staff</p>
          {% endif %}
          {% if not perfil.apodo and not perfil.bio and not perfil.ubicacion and not perfil.email %}
          {% if user == perfil.user %}
@@ -43,7 +43,7 @@
          {% endif %}
          {% if user.is_authenticated and user == perfil.user %}
          <div class="perfil-botones" style="margin-top:1rem;">
-            <a href="{% url 'completar_perfil' %}" class="btn-perfil" style="padding:0.5rem 1rem; background:#333; color:#fff; border-radius:6px; text-decoration:none;">Editar perfil</a>
+            <a href="{% url 'completar_perfil' %}" class="btn-brand">Editar perfil</a>
          </div>
          {% endif %}
          {% endif %}

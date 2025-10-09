@@ -2,40 +2,38 @@
 {% load static %}
 {% block title %}Completar Perfil{% endblock %}
 {% block content %}
-<div class="perfil-container" style="max-width:600px; margin:2rem auto; padding:1.5rem; border:1px solid #ccc; border-radius:10px; background-color:#f9f9f9;">
-   <h2 style="text-align:center; margin-bottom:1.5rem;">Completa tu Perfil</h2>
+<div class="perfil-container">
+   <h2>Completa tu Perfil</h2>
    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      <div style="text-align:center; margin-bottom:1rem;">
+      <div class="avatar-section">
          {% if user.perfil.avatar %}
-         <img src="{{ user.perfil.avatar.url }}" alt="Avatar" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:0.5rem; border:2px solid #333;">
+         <img src="{{ user.perfil.avatar.url }}" alt="Avatar" class="avatar-img">
          {% else %}
-         <img src="{% static 'foro/img/default-face.png' %}" alt="Avatar por defecto" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:0.5rem; border:2px solid #333;">
+         <img src="{% static 'foro/img/default-face.png' %}" alt="Avatar por defecto" class="avatar-img">
          {% endif %}
          <br>
-         <label for="id_avatar">Subir Avatar:</label><br>
-         {{ form.avatar }}
+         <label for="id_avatar" class="btn-brand">Subir Foto</label>
+         <input type="file" name="avatar" id="id_avatar" class="input-file">
       </div>
-      <div style="margin-bottom:1rem;">
-         <label for="id_apodo">Apodo:</label><br>
+      <div class="form-group">
+         <label for="id_apodo">Apodo:</label>
          {{ form.apodo }}
       </div>
-      <div style="margin-bottom:1rem;">
-         <label for="id_bio">Bio:</label><br>
+      <div class="form-group">
+         <label for="id_bio">Bio:</label>
          {{ form.bio }}
       </div>
-      <div style="margin-bottom:1rem;">
-         <label for="id_ubicacion">Ubicación:</label><br>
+      <div class="form-group">
+         <label for="id_ubicacion">Ubicación:</label>
          {{ form.ubicacion }}
       </div>
-      <div style="margin-bottom:1rem;">
-         <label for="id_email">Email:</label><br>
+      <div class="form-group">
+         <label for="id_email">Email:</label>
          {{ form.email }}
       </div>
-      <div style="text-align:center;">
-         <button type="submit" class="btn-completar" style="padding:0.6rem 1.2rem; background-color:#333; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">
-         Guardar Perfil
-         </button>
+      <div class="submit-container">
+         <button type="submit" class="btn-brand">Guardar Perfil</button>
       </div>
    </form>
 </div>
