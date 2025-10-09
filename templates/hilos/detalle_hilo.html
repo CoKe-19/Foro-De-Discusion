@@ -16,13 +16,19 @@
       <h2>Respuestas</h2>
       <ul>
          {% for info in respuestas_info %}
-         <li class="respuesta-item" style="display:flex; gap:0.5rem; align-items:flex-start;">
+         <li class="respuesta-item">
             <div class="avatar">
+               <a href="{% url 'ver_perfil' info.respuesta.usuario.username %}">
                {% if info.respuesta.usuario.perfil.avatar %}
-               <img src="{{ info.respuesta.usuario.perfil.avatar.url }}" alt="Avatar de {{ info.respuesta.usuario.username }}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+               <img src="{{ info.respuesta.usuario.perfil.avatar.url }}" 
+                  alt="Avatar de {{ info.respuesta.usuario.username }}" 
+                  style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                {% else %}
-               <img src="{% static 'foro/img/default-face.png' %}" alt="Avatar por defecto" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+               <img src="{% static 'foro/img/default-face.png' %}" 
+                  alt="Avatar por defecto" 
+                  style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                {% endif %}
+               </a>
             </div>
             <div class="respuesta-contenido" style="flex:1; display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; flex-wrap:wrap;">
                <div class="texto-respuesta" style="flex:1; word-wrap:break-word; overflow-wrap:break-word;">
@@ -42,12 +48,6 @@
                      <button type="submit" class="btn-like">🤍 {{ info.likes_count }}</button>
                   </form>
                   {% endif %}
-                  {% endif %}
-                  {% if user == info.respuesta.usuario %}
-                  <a href="{% url 'editar_respuesta' info.respuesta.id %}" class="btn-brand">Editar</a>
-                  <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-danger">Eliminar</a>
-                  {% elif user.is_staff %}
-                  <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-danger">Eliminar</a>
                   {% endif %}
                </div>
             </div>
