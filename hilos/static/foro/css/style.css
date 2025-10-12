@@ -42,10 +42,9 @@ header h1 {
     text-shadow: 0 1px 3px rgba(253, 253, 253, 0.2);
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
-    ord-break: break-word;    /* ya lo tenemos */
-    overflow-wrap: break-word; /* ya lo tenemos */
+    overflow-wrap: break-word; 
     hyphens: auto;             /* añade guiones automáticos */
-    font-size: clamp(1.5rem, 2.5vw, 2.8rem); /* reduce tamaño en pantallas pequeñas */
+    font-size: clamp(1.5rem, 2.5vw, 2.8rem); 
 }
 
 header p {

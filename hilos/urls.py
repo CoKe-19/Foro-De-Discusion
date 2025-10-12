@@ -16,17 +16,6 @@ Including another URLconf
 """
 from django.urls import path, include
 from .import views
-from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .api_views import CategoriaViewSet, HiloViewSet, RespuestaViewSet, saludo
-from rest_framework.routers import DefaultRouter
-
-# Configuración del router de DRF
-router = DefaultRouter()
-router.register('categorias', CategoriaViewSet)
-router.register('hilos', HiloViewSet)
-router.register('respuestas', RespuestaViewSet)
-
 
 urlpatterns = [
     path('', views.pagina_principal ,name="pagina_principal"),
@@ -51,9 +40,4 @@ urlpatterns = [
     path('perfil/<str:username>/', views.ver_perfil, name='ver_perfil'),
     path('buscar/', views.buscar, name='buscar'),
 
-     # URLs de la API
-    path('api/saludo/', saludo),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/', include(router.urls)), 
 ]
