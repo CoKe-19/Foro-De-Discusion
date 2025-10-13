@@ -4,7 +4,7 @@ from .models import Hilo, Categoria
 
 User = get_user_model()
 
-class UsuarioMiniSerializer(serializers.ModelSerializer):
+class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "is_staff"]
@@ -15,7 +15,7 @@ class CategoriaMiniSerializer(serializers.ModelSerializer):
         fields = ["id", "nombre"]
 
 class HiloSerializer(serializers.ModelSerializer):
-    usuario_info = UsuarioMiniSerializer(source="usuario", read_only=True)
+    usuario_info = UsuarioSerializer(source="usuario", read_only=True)
     categoria_info = CategoriaMiniSerializer(source="categoria", read_only=True)
 
     usuario = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
