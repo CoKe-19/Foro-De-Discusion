@@ -1,25 +1,23 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from .models import Hilo, Categoria
+from .models import Hilo, Categoria, Respuesta
 
-User = get_user_model()
-
-class UsuarioMiniSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "username", "is_staff"]
-
-class CategoriaMiniSerializer(serializers.ModelSerializer):
+class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
-        fields = ["id", "nombre"]
+        fields = "__all__"
+    
+    def validate_nombre(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("El nombre de la categoría es obligatorio.")
+        categoria_id = self.instance.id if self.instance else None
+        if Categoria.objects.filter(nombre__iexact=value).exclude(id=categoria_id).exists():
+            raise serializers.ValidationError("El nombre de la categoría ya existe.")        
+        return value
+
 
 class HiloSerializer(serializers.ModelSerializer):
-    usuario_info = UsuarioMiniSerializer(source="usuario", read_only=True)
-    categoria_info = CategoriaMiniSerializer(source="categoria", read_only=True)
-
-    usuario = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    categoria = serializers.PrimaryKeyRelatedField(queryset=Categoria.objects.all())
+    categoria_info = CategoriaSerializer(source="categoria", read_only=True)
 
     class Meta:
         model = Hilo
@@ -28,21 +26,34 @@ class HiloSerializer(serializers.ModelSerializer):
             "titulo",
             "contenido",
             "fecha",
-            "usuario", "usuario_info",
-            "categoria", "categoria_info",
+            "usuario",
+            "categoria",
+            "categoria_info",
         ]
         read_only_fields = ["fecha"]
 
     def validate_titulo(self, value):
-        if len(value.strip()) < 5:
+        if not value:
+            raise serializers.ValidationError("El título es obligatorio.")
+        if len(value) < 5:
             raise serializers.ValidationError("El título debe tener al menos 5 caracteres.")
         return value
 
-    def validate(self, data):
-        usuario = data.get("usuario")
-        categoria = data.get("categoria")
-        if usuario and not usuario.is_active:
-            raise serializers.ValidationError("El usuario está inactivo y no puede crear hilos.")
-        if not categoria:
-            raise serializers.ValidationError("Debe asignarse una categoría válida.")
-        return data
+class RespuestaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Respuesta
+        fields = [
+            "id",
+            "contenido",
+            "usuario",
+            "hilo",
+            "fecha",
+        ]
+        read_only_fields = ["fecha"]
+
+    def validate_contenido(self, value):
+        if not value or not value.strip():
+            raise serializers.ValidationError("El contenido de la respuesta es obligatorio.")
+        if len(value.strip()) < 3:
+            raise serializers.ValidationError("El contenido debe tener al menos 3 caracteres.")
+        return value.strip()

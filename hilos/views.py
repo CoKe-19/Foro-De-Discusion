@@ -14,9 +14,19 @@ User = get_user_model()
 def pagina_principal(request):
     total_usuarios = User.objects.count()
     total_hilos = Hilo.objects.count()
+    perfiles = Perfil.objects.select_related('user').all()
+    usuarios_destacados = sorted(
+        perfiles,
+        key=lambda p: Hilo.objects.filter(usuario=p.user).count(),
+        reverse=True
+    )[:5]
+    for perfil in usuarios_destacados:
+        perfil.hilos_count = Hilo.objects.filter(usuario=perfil.user).count()
+
     return render(request, "hilos/index.html", {
         "total_usuarios": total_usuarios,
-        "total_hilos": total_hilos
+        "total_hilos": total_hilos,
+        "usuarios_destacados": usuarios_destacados
     })
     
 @login_required(login_url="login")

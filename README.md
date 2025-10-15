@@ -1,11 +1,12 @@
-# Evaluación N°2 – Desarrollo Django CRUD (con Login)
+# Foro de Discusión - Proyecto Django
 
 ## 0) Objetivo General
-Construir una aplicación web tipo Foro de Discusión con autenticación obligatoria y CRUD completo para tres modelos relacionados: Hilo, Respuesta y Categoría. Se documenta casos de uso y diseño de datos.
+Construir una aplicación web tipo Foro de Discusión con autenticación obligatoria y CRUD completo para los modelos Hilo, Respuesta, Categoría, Perfil y Likes. Incluye validaciones, permisos, filtros, búsqueda y documentación de la API REST.
 
 ## 1) Entorno / Versiones
 - Python: 3.11
 - Django: 5.2.5
+- Django REST Framework: según requirements.txt
 - Base de datos: SQLite
 
 ## 2) Instalación
@@ -25,100 +26,172 @@ python manage.py createsuperuser
 6. Ejecutar servidor:
 python manage.py runserver
 
-## 3) Acceso y CRUD
+## 3) Acceso Web y CRUD
+### Login / Logout
 - Login: /login/
 - Logout: /logout/
-- Hilos (Entidad A):
-  - Crear: /hilos/crear/
-  - Listar: /hilos/
-  - Editar: /hilos/<hilo_id>/editar/
-  - Eliminar: /hilos/<hilo_id>/eliminar/
-- Respuestas (Entidad B):
-  - Crear: dentro de /hilos/<hilo_id>/detalle/
-  - Editar: /respuestas/<respuesta_id>/editar/
-  - Eliminar: /respuestas/<respuesta_id>/eliminar/
-- Categorías (Entidad C):
-  - Crear: /categorias/crear/
-  - Listar: /categorias/
-  - Editar: /categorias/<categoria_id>/editar/
-  - Eliminar: /categorias/<categoria_id>/eliminar/
+
+### Hilos
+- Crear: /hilos/crear/
+- Listar: /hilos/
+- Editar: /hilos/<hilo_id>/editar/
+- Eliminar: /hilos/<hilo_id>/eliminar/
+
+### Respuestas
+- Crear: desde /hilos/<hilo_id>/detalle/
+- Editar: /respuestas/<respuesta_id>/editar/
+- Eliminar: /respuestas/<respuesta_id>/eliminar/
+
+### Categorías
+- Crear: /categorias/crear/
+- Listar: /categorias/
+- Editar: /categorias/<categoria_id>/editar/
+- Eliminar: /categorias/<categoria_id>/eliminar/ (solo si no tiene hilos)
+
+### Perfil
+- Ver: /perfil/
+- Editar: /perfil/editar/
+
+### Likes
+- Dar/Quitar like: integrado en detalle de hilo y respuestas
 
 Notas importantes:
-- Las vistas de crear/editar/eliminar requieren login.
+- Crear/Editar/Eliminar requiere login.
 - Mensajes de éxito/error visibles con messages.
-- Formularios con validaciones de campos obligatorios y tipos correctos.
-- Intento de eliminar categoría con hilos asociados muestra mensaje de error y no se elimina.
+- Validaciones de campos obligatorios y formatos correctos.
+- Intento de borrar categoría con hilos asociados muestra mensaje y no elimina.
 
 ## 4) Casos de Uso
+### CU1: Gestión de Hilos
+- Actores: Usuario, Administrador
+- Precondiciones: Usuario autenticado; administrador con permisos staff.
+- Flujo principal: Crear, editar, eliminar hilos. Ver lista de hilos generales o propios.
+- Excepciones: Campos vacíos → mensaje de error. Editar/eliminar hilo ajeno → acceso denegado.
+- Postcondición: Hilo creado/actualizado/eliminado correctamente.
 
-### CU1: Gestión Hilos
-**Actores:** Usuario, Administrador  
-**Precondiciones:** Usuario autenticado; administrador con permisos de staff; para editar/eliminar, el hilo debe pertenecer al usuario o el usuario debe ser admin.  
-**Flujo principal:**
-1. Usuario inicia sesión y selecciona “Crear Hilo”.
-2. Ingresa título, contenido y categoría; sistema valida y guarda.
-3. Usuario puede ver hilos generales o propios.
-4. Usuario edita/elimina sus hilos.
-5. Administrador puede ver, editar o eliminar cualquier hilo.  
-**Excepciones/Errores:**
-- Campos obligatorios vacíos → mensaje de error.
-- Intento de editar/eliminar hilo ajeno → acceso denegado.
-- Admin sin permisos → acceso denegado.  
-**Postcondiciones:** Hilo creado, editado o eliminado correctamente; lista de hilos actualizada; se muestran mensajes de éxito o error.
+### CU2: Gestión de Categorías
+- Actor: Administrador
+- Precondiciones: Usuario autenticado con permisos staff
+- Flujo principal: Crear, editar, listar categorías. Eliminar solo si no tiene hilos asociados.
+- Excepciones: Campos vacíos → error. Editar/eliminar categoría con hilos → error.
+- Postcondición: Categoría gestionada correctamente.
 
-### CU2: Gestión Categorías
-**Actores:** Administrador  
-**Precondiciones:** Usuario autenticado con permisos de staff.  
-**Flujo principal:**
-1. Administrador crea una nueva categoría usando el formulario.
-2. Administrador puede editar el nombre de categorías existentes.
-3. Administrador puede listar todas las categorías.
-4. Administrador puede eliminar categorías sin hilos asociados.  
-**Excepciones/Errores:**
-- Campos obligatorios vacíos → mensaje de error.
-- Intento de editar/eliminar categoría sin permisos → acceso denegado.
-- Intento de eliminar categoría con hilos asociados → mensaje de error, no se elimina.  
-**Postcondiciones:** Categoría creada, editada o eliminada correctamente; lista de categorías actualizada.
+### CU3: Gestión de Respuestas
+- Actores: Usuario, Administrador
+- Precondiciones: Usuario autenticado; la respuesta pertenece al usuario o es admin
+- Flujo principal: Crear, editar, eliminar respuestas
+- Excepciones: Campos obligatorios vacíos → mensaje. Editar/eliminar respuesta ajena → acceso denegado
+- Postcondición: Respuesta gestionada correctamente
 
-### CU3: Gestión Respuestas
-**Actores:** Usuario, Administrador  
-**Precondiciones:** Usuario autenticado; la respuesta pertenece al usuario o el usuario es admin.  
-**Flujo principal:**
-1. Usuario selecciona un hilo y escribe una respuesta.
-2. Sistema valida y guarda la respuesta.
-3. Usuario puede editar o eliminar sus respuestas.
-4. Administrador puede eliminar cualquier respuesta.  
-**Excepciones/Errores:**
-- Campos obligatorios vacíos → mensaje de error.
-- Intento de editar/eliminar respuesta ajena → acceso denegado.  
-**Postcondiciones:** Respuesta creada, editada o eliminada correctamente; lista de respuestas actualizada.
+### CU4: Gestión de Perfil
+- Actores: Usuario (incluye administradores como usuarios normales)
+- Precondiciones: Usuario autenticado; el perfil debe pertenecer al usuario
+- Flujo principal: Acceder a la sección Perfil, ver información (avatar, apodo, bio, ubicación, email, estadísticas), editar datos y actualizar foto, apodo, bio o ubicación; sistema valida y guarda cambios
+- Excepciones: Campos vacíos → mensaje de error; datos inválidos → mensaje de error
+- Postcondición: Perfil actualizado correctamente; cambios reflejados en base de datos; mensajes de éxito o error mostrados
+
+### CU5: Gestión de Likes en Respuestas
+- Actores: Usuario
+- Precondiciones: Usuario autenticado; la respuesta debe existir
+- Flujo principal: Acceder a un hilo y sus respuestas, dar like a una respuesta (registrar en DB), si ya existe like puede quitarlo; sistema actualiza contador de likes en tiempo real
+- Excepciones: Usuario no autenticado → acceso denegado; intentar quitar like inexistente → mensaje de error
+- Postcondición: Like registrado o quitado correctamente; contador de likes actualizado; mensajes de éxito o error mostrados
 
 ## 5) Diagrama de Clases
-- Clases: User (Django), Hilo, Respuesta, Categoria  
-- Relaciones:
-  - User 1 → 0..* Hilo (crea)
-  - User 1 → 0..* Respuesta (publica)
-  - Categoria 1 → 0..* Hilo (contiene)
-  - Hilo 1 → 0..* Respuesta (recibe)
-- Claves primarias, foráneas y cardinalidades definidas.  
+- Modelos: User (Django), Hilo, Respuesta, Categoria, Perfil, Like
+- Relaciones: User 1 → N Hilo, User 1 → N Respuesta, Categoria 1 → N Hilo, Hilo 1 → N Respuesta
+- Claves foráneas y cardinalidades definidas en modelos.
 - Validaciones y permisos según modelo.
 
-## 6) Recomendaciones / Notas
-- Login obligatorio para operaciones sensibles.  
-- CSRF en todos los formularios.  
-- Mensajes flash para feedback (success/error).  
-- on_delete definido en todas las FK (PROTECT o CASCADE según corresponda).  
-- Estructura de carpetas: proyecto/, hilos/, templates/, static/.  
-- CSS simple y consistente.  
+## 6) Permisos y Flujo de Acceso (Diagrama Textual)
+Usuarios autenticados (no admin) -> GET Hilos / Respuestas / Categorías : PERMITIDO  
+Usuarios autenticados (no admin) -> POST/PUT/DELETE Hilos / Respuestas / Categorías : DENEGADO  
+Administradores -> CRUD completo Hilos / Respuestas / Categorías : PERMITIDO  
+Usuario -> GET/PUT Perfil propio : PERMITIDO  
+Usuario -> Dar/Quitar Likes en Respuestas : PERMITIDO  
+Usuario -> Editar Perfil ajeno / Dar Likes a respuesta no existente : DENEGADO  
+Usuarios no autenticados -> Cualquier acción sensible : DENEGADO (401)
 
-## 7) Comandos Clave
+## 7) Recomendaciones / Notas
+- Login obligatorio para operaciones sensibles.
+- CSRF en todos los formularios.
+- Mensajes flash (success / error) para feedback.
+- on_delete definido para todas las FK (PROTECT o CASCADE).
+- Estructura de carpetas:
+  proyecto/
+    settings.py
+    urls.py
+    wsgi.py
+  hilos/
+    models.py
+    serializers.py
+    views_api.py
+    api_urls.py
+    templates/
+    static/
+- CSS simple y consistente.
+
+## 8) Comandos Clave
 python manage.py makemigrations  
 python manage.py migrate  
 python manage.py createsuperuser  
 python manage.py runserver
 
-## 8) Observaciones
-- Las vistas de listado pueden ser públicas o privadas según diseño; mínimo uno requiere login.  
-- Intento de borrar categoría con hilos asociados no genera error de servidor, solo mensaje al usuario.  
-- Todos los formularios reutilizan form.html, excepto login que usa plantilla propia de Django.  
-- El proyecto cumple con la rúbrica: 3 CRUD completos, validaciones, permisos y mensajes de feedback.
+## 9) API REST (Django REST Framework)
+### Autenticación
+- JWT: /api/token/ (obtener access y refresh)  
+- JWT refresh: /api/token/refresh/  
+- También soporta TokenAuthentication o sesión de Django
+
+### Endpoints Principales
+Hilo: /api/hilos/ → GET Listar (todos los usuarios), POST Crear (solo admin), GET /<id>/ detalle, PUT/PATCH /<id>/ editar (solo admin), DELETE /<id>/ eliminar (solo admin), PUT /<id>/cambiar-categoria/ cambiar categoría  
+Respuesta: /api/respuestas/ → GET Listar (todos los usuarios), POST Crear (solo admin), GET /<id>/ detalle, PUT/PATCH /<id>/ editar (solo admin), DELETE /<id>/ eliminar (solo admin)  
+Categoría: /api/categorias/ → GET Listar (todos los usuarios), POST Crear (solo admin), GET /<id>/ detalle, PUT/PATCH /<id>/ editar (solo admin), DELETE /<id>/ eliminar solo si no tiene hilos  
+Perfil: /api/perfil/ → GET ver (usuario propio), PUT/PATCH editar (usuario propio)  
+Likes: /api/likes/ → POST dar/quitar like a respuesta (usuario autenticado)
+
+### Filtros, búsqueda y ordenamiento
+- Filtros por campo: filterset_fields
+- Búsqueda: search_fields
+- Ordenamiento: ordering_fields
+- Paginación: PageNumberPagination (10 items por página)
+
+## 10) Ejemplo de Pruebas API con Thunder Client
+**Header para requests protegidos:**  
+Authorization: Bearer <access_token>  
+Content-Type: application/json  
+
+**Tabla de CRUD y permisos**
+| Recurso | Método | Usuario no admin | Admin | Resultado esperado |  
+|---------|--------|-----------------|-------|------------------|  
+| /api/hilos/ | GET | ✅ | ✅ | Solo usuarios autenticados pueden ver |  
+| /api/hilos/ | POST | ❌ | ✅ | Solo admin puede crear |  
+| /api/hilos/<id>/ | PUT/PATCH | ❌ | ✅ | Solo admin puede editar |  
+| /api/hilos/<id>/ | DELETE | ❌ | ✅ | Solo admin puede eliminar |  
+| /api/respuestas/ | GET | ✅ | ✅ | Listado permitido |  
+| /api/respuestas/ | POST | ❌ | ✅ | Solo admin puede crear |  
+| /api/categorias/ | GET | ✅ | ✅ | Listado permitido |  
+| /api/categorias/ | POST/PUT/DELETE | ❌ | ✅ | Solo admin; DELETE falla si tiene hilos |  
+| /api/perfil/ | GET/PUT | ✅ Solo propio | ✅ Solo propio | Usuario gestiona su perfil |  
+| /api/likes/ | POST | ✅ | ✅ | Dar/quitar like permitido para usuarios autenticados |  
+
+**Ejemplo POST Hilo**  
+POST http://localhost:8000/api/hilos/  
+Body:  
+{  
+  "titulo": "Ejemplo de Hilo",  
+  "contenido": "Contenido de prueba",  
+  "categoria": 1,  
+  "usuario": 1  
+}  
+Respuesta: `201 Created` si es admin, `403 Forbidden` si no es admin
+
+## 11) Documentación
+- Schema OpenAPI: /api/schema/  
+- Swagger UI: /api/docs/
+
+## 12) Observaciones finales
+- Usuarios autenticados → GET permitido, POST/PUT/DELETE solo admins (para hilos, respuestas, categorías)  
+- Usuario puede ver/editar su propio perfil y dar/quitar likes en respuestas  
+- Intentos de acciones no permitidas devuelven códigos HTTP correctos (401, 403, 400, 404)  
+- Proyecto cumple con la rúbrica de evaluación 3: CRUD completo, validaciones, filtros, búsqueda, ordenamiento, paginación, permisos, JWT, documentación OpenAPI, manejo correcto de errores

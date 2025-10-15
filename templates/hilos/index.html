@@ -2,6 +2,32 @@
 {% load static %}
 {% block title %}Inicio - Foro de Hilos{% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
+<section class="usuarios-foro">
+   <h2>Usuarios Destacados</h2>
+   <ul>
+      {% for perfil in usuarios_destacados %}
+      {% if perfil.user and perfil.user.username %}
+      <li style="display:flex; align-items:center; gap:0.8rem;">
+         <a href="{% url 'ver_perfil' perfil.user.username %}">
+         {% if perfil.avatar %}
+         <img src="{{ perfil.avatar.url }}" alt="Avatar de {{ perfil.user.username }}" 
+            style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+         {% else %}
+         <img src="{% static 'foro/img/default-face.png' %}" alt="Avatar por defecto" 
+            style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+         {% endif %}
+         </a>
+         <span>{{ perfil.user.username }}</span> —
+         <span>{{ perfil.hilos_count }} {% if perfil.hilos_count == 1 %}hilo{% else %}hilos{% endif %}</span>
+      </li>
+      {% endif %}
+      {% empty %}
+      <li>No hay usuarios destacados.</li>
+      {% endfor %}
+   </ul>
+</section>
+{% endif%}
 <section>
    <h2>¿Qué puedes aqui ?</h2>
    <img src="{% static 'foro/img/grupo.png' %}" alt="Grupo">

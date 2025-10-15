@@ -4,13 +4,12 @@
    <head>
       <meta charset="UTF-8">
       <title>{% block title %}Foro de Hilos{% endblock %}</title>
-      <link rel="stylesheet" href="{% static 'foro/css/style.css' %}?v=v3">
+      <link rel="stylesheet" href="{% static 'foro/css/style.css' %}?v=v40">
    </head>
    <body>
+         <img src="{% static 'foro/img/cokeforo.png' %}" alt="Logo Foro" class="logo-foro">
       <header>
-         <h1 class="titulo-principal">Foro Gamer Coke</h1>
-      </header>
-      <!-- Navegación -->
+         <!-- Navegación -->
       <nav>
          <ul>
             <li><a href="{% url 'pagina_principal' %}">Inicio</a></li>
@@ -46,11 +45,10 @@
             {% endif %}
          </ul>
       </nav>
+         <h1 class="titulo-principal">Foro Gamer Coke</h1>
+      </header>
       <!-- Encabezado -->
       <header>
-         <div class="banner">
-            <img src="{% static 'foro/img/bannergamer.jpg' %}" alt="Banner Foro">
-         </div>
          <p>Explora, crea y opina sobre los hilos de la comunidad.</p>
       </header>
       <main>
