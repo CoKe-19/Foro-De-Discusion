@@ -2,48 +2,53 @@
 <!DOCTYPE html>
 <html lang="es">
    <head>
-      <meta charset="UTF-8">
+      <meta charset="UTF-8" />
       <title>{% block title %}Foro GamerCoke{% endblock %}</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-      <link rel="stylesheet" href="{% static 'foro/css/style.css' %}?v=v8">
+      <link rel="stylesheet" href="{% static 'foro/css/style.css' %}?v=v12">
    </head>
    <body class="{% block body_class %}{% endblock %}">
       <header class="header">
-         <div class="nav-container">
-            <!-- 🔹 Navegación izquierda -->
-            <div class="nav-left">
-               <span class="logo-text">🎮Foro Coke</span>
-               <img src="{% static 'foro/img/logoforocoke.png' %}" alt="Logo Foro" class="logo-img">
-               <nav class="nav-links">
-                  <a href="{% url 'pagina_principal' %}">Inicio</a>
-                  <a href="{% url 'quienes_somos' %}">Quiénes Somos</a>
-                  <a href="{% url 'guias' %}">Guias</a>
-                  {% if user.is_authenticated %}
-                  <a href="{% url 'lista_hilos' %}">Explorar</a>
-                  <a href="{% url 'mis_hilos' %}">Mis Hilos</a>
-                  <a href="{% url 'hilo_crear' %}">Crear Hilo</a>
-                  <a href="{% url 'ver_perfil' user.username %}">Perfil</a>
-                  {% if user.is_staff %}
-                  <a href="{% url 'lista_categorias' %}">Categorías</a>
-                  <a href="{% url 'lista_usuarios' %}">Usuarios</a>
-                  {% endif %}
-                  {% endif %}
-               </nav>
-            </div>
-            <!-- 🔹 Navegación derecha -->
-            <div class="nav-right">
+         <!-- Izquierda: Logo + navegación -->
+         <div class="navbar-nav d-flex flex-row align-items-center gap-3" style="flex-wrap: wrap;">
+            <img src="{% static 'foro/img/logoforocoke.png' %}" alt="Logo Foro" class="logo-img" />
+            <span class="logo-text">🎮Foro Coke</span>
+            <nav class="nav-links">
+               <a href="{% url 'pagina_principal' %}">Inicio</a>
+               <a href="{% url 'quienes_somos' %}">Quiénes Somos</a>
+               <a href="{% url 'guias' %}">Guías</a>
                {% if user.is_authenticated %}
-               <div class="user-info">
-                  <span class="user-name">{{ user.username }}</span>
-                  {% if user.is_staff %}
-                  <span class="user-role staff">(Staff)</span>
-                  {% endif %}
-               </div>
-               <form method="post" action="{% url 'logout' %}">
-                  {% csrf_token %}
-                  <button type="submit" class="btn-logout">Salir</button>
-               </form>
+               <a href="{% url 'lista_hilos' %}">Explorar Hilos</a>
+               <a href="{% url 'mis_hilos' %}">Mis Hilos</a>
+               <a href="{% url 'hilo_crear' %}">Crear Hilo</a>
+               <a href="{% url 'ver_perfil' user.username %}">Perfil</a>
+               {% if user.is_staff %}
+               <a href="{% url 'lista_categorias' %}">Categorías</a>
+               <a href="{% url 'lista_usuarios' %}">Usuarios</a>
+               {% endif %}
+               {% endif %}
+            </nav>
+         </div>
+         <!-- Centro: Barra de búsqueda -->
+         <div class="search-container">
+            <form method="get" action="{% url 'buscar' %}" class="search-form">
+               <input type="text" name="query" placeholder="Buscar..." required />
+               <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+         </div>
+         <!-- Derecha: Usuario y sesión -->
+         <div class="nav-right flex-row align-center">
+            {% if user.is_authenticated %}
+            <div class="user-info">
+               <span class="user-name">{{ user.username }}</span>
+               {% if user.is_staff %}
+               <span class="user-role staff">(Staff)</span>
+               {% endif %}
             </div>
+            <form method="post" action="{% url 'logout' %}">
+               {% csrf_token %}
+               <button type="submit" class="btn-logout">Salir</button>
+            </form>
             {% else %}
             <a href="{% url 'login' %}" class="btn-login">Iniciar Sesión</a>
             <a href="{% url 'registrar_usuario' %}" class="btn-register">Registrarse</a>
@@ -51,13 +56,13 @@
          </div>
          </div>
       </header>
-      <!-- 🟡 Banner Publicitario Mercado Libre -->
+      <!-- Banner Publicitario -->
       <div class="banner-ml">
          <a href="https://www.mercadolibre.cl/" target="_blank" rel="noopener noreferrer">
-         <img src="{% static 'foro/img/mercadolibre.jpg' %}" alt="Publicidad Mercado Libre">
+         <img src="{% static 'foro/img/mercadolibre.jpg' %}" alt="Publicidad Mercado Libre" />
          </a>
       </div>
-      <!-- 🔹 Contenido principal -->
+      <!-- Contenido principal -->
       <main class="{% block main_class %}container{% endblock %}">
          {% if messages %}
          {% for message in messages %}
@@ -77,9 +82,9 @@
             <div class="footer-center">
                <h4>Secciones</h4>
                <ul>
-                  <li><a href="#">Inicio</a></li>
-                  <li><a href="#">Quiénes Somos</a></li>
-                  <li><a href="#">Contacto</a></li>
+                  <li><a href="{% url 'pagina_principal' %}">Inicio</a></li>
+                  <li><a href="{% url 'reglas' %}">Reglas</a></li>
+                  <li><a href="{% url 'acuerdo' %}">Acuerdo del usuario</a></li>
                   <li><a href="#">Política</a></li>
                </ul>
             </div>
@@ -94,7 +99,7 @@
             </div>
          </div>
          <div class="footer-bottom">
-            <p>© 2025 <strong>Foro GamerCoke</strong> — Hecho con 💙 </p>
+            <p>© 2025 <strong>Foro GamerCoke</strong> — Hecho con 💙</p>
          </div>
       </footer>
    </body>

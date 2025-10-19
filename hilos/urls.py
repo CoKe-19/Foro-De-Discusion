@@ -42,7 +42,7 @@ urlpatterns = [
     path('respuestas/<int:respuesta_id>/eliminar/', views.eliminar_respuesta, name='respuesta_eliminar'),
     path('like/<int:respuesta_id>/', views.toggle_like, name='toggle_like'),
 
-    # 📂 Categorías
+    # Categorías
     path('categorias/', views.lista_categorias, name='lista_categorias'),
     path('categorias/crear/', views.crear_categoria, name='categoria_crear'),
     path('categorias/<int:categoria_id>/editar/', views.editar_categoria, name='categoria_editar'),

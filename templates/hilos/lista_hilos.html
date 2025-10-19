@@ -5,7 +5,6 @@
    <div class="table-header">
       <h2>🧵 Hilos Generales</h2>
       {% if user.is_authenticated %}
-      <a href="{% url 'hilo_crear' %}" class="btn-primary">+ Crear Hilo</a>
       {% endif %}
    </div>
    <div class="table-container">
@@ -27,7 +26,7 @@
                <td>{{ forloop.counter }}</td>
                <td>{{ hilo.titulo }}</td>
                <td>{{ hilo.categoria.nombre }}</td>
-               <td>@{{ hilo.usuario.username }}</td>
+               <td>{{ hilo.usuario.username }}</td>
                <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
                <td class="acciones-cell">
                   <a href="{% url 'detalle_hilo' hilo.id %}" class="btn-view">Ver</a>

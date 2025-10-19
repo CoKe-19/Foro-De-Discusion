@@ -8,7 +8,7 @@
    <form method="post">
       {% csrf_token %}
       <button type="submit" class="btn-danger">Sí, eliminar</button>
-      <a href="{% url 'detalle_hilo' hilo_id=hilo.id %}" class="btn-brand">Cancelar</a>
+      <a href="{% url 'lista_hilos' %}" class="btn btn-secondary">Cancelar</a>
    </form>
    {% elif respuesta %}
    {% if user == respuesta.usuario %}

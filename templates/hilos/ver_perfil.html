@@ -16,6 +16,14 @@
          <p><strong>Email:</strong> {{ perfil.email|default:"(no especificado)" }}</p>
          <p><strong>Ubicación:</strong> {{ perfil.ubicacion|default:"Sin ubicación" }}</p>
          <p><strong>Bio:</strong> {{ perfil.bio|default:"Sin biografía" }}</p>
+         <p>
+            <strong>Rol:</strong>
+            {% if perfil.user.is_staff or perfil.user.is_superuser %}
+            <span class="rol-admin">Administrador</span>
+            {% else %}
+            <span class="rol-usuario">Usuario normal</span>
+            {% endif %}
+         </p>
          {% if user == perfil.user %}
          <a href="{% url 'completar_perfil' %}" class="btn-edit">
          ✏️ Editar Perfil

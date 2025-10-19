@@ -21,11 +21,22 @@
       {% if respuestas %}
       {% for respuesta in respuestas %}
       <div class="comment-card">
-         <p>{{ respuesta.contenido|linebreaks }}</p>
-         <div class="comment-meta">
-            <span>Por <strong>@{{ respuesta.usuario.username }}</strong></span>
-            <span>{{ respuesta.fecha|date:"d/m/Y" }}</span>
+         <div class="comment-header">
+            <a href="{% url 'ver_perfil' respuesta.usuario.username %}">
+            {% if respuesta.usuario.perfil.avatar %}
+            <img src="{{ respuesta.usuario.perfil.avatar.url }}" alt="Foto de perfil" class="avatar-comentario">
+            {% else %}
+            <img src="{% static 'img/default-avatar.png' %}" alt="Sin foto" class="avatar-comentario">
+            {% endif %}
+            </a>
+            <div class="comment-meta">
+               <a href="{% url 'ver_perfil' respuesta.usuario.username %}">
+               <strong>{{ respuesta.usuario.username }}</strong>
+               </a><br>
+               <span class="fecha-comentario">{{ respuesta.fecha|date:"d/m/Y" }}</span>
+            </div>
          </div>
+         <p>{{ respuesta.contenido|linebreaks }}</p>
          <div class="comment-actions">
             <div class="like-section">
                <form method="post" action="{% url 'toggle_like' respuesta.id %}">
@@ -64,7 +75,7 @@
       </div>
       {% else %}
       <div class="comment-card">
-         <p>🔒 Debes <a href="{% url 'login' %}">iniciar sesión</a> para comentar o dar “me gusta”.</p>
+         <p>🔒 Debes <a href="{% url 'login' %}">iniciar sesión</a>.</p>
       </div>
       {% endif %}
    </section>

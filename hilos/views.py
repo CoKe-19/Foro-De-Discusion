@@ -45,7 +45,7 @@ def registrar_hilo(request):
             hilo.usuario = request.user
             hilo.save()
             messages.success(request, "Hilo creado correctamente.")
-            return redirect("pagina_principal")
+            return redirect("mis_hilos")
         else:
             messages.error(request, "No se pudo crear el hilo. Revisa los campos e inténtalo nuevamente.")
     else:
@@ -85,16 +85,13 @@ def registrar_usuario(request):
 
 def detalle_hilo(request, hilo_id):
     hilo = Hilo.objects.select_related('categoria', 'usuario').prefetch_related('respuestas__usuario').get(id=hilo_id)
-    
     respuestas = hilo.respuestas.all().order_by('fecha')
-
     if request.user.is_authenticated:
         respuestas = respuestas.annotate(
             ya_dio_like=Exists(
                 Like.objects.filter(usuario=request.user, respuesta=OuterRef('pk'))
             )
         )
-
     if request.method == "POST":
         if not request.user.is_authenticated:
             return redirect('login')
@@ -106,7 +103,6 @@ def detalle_hilo(request, hilo_id):
                 contenido=contenido
             )
             return redirect('detalle_hilo', hilo_id=hilo.id)
-
     return render(request, 'hilos/detalle_hilo.html', {
         'hilo': hilo,
         'respuestas': respuestas
@@ -134,8 +130,8 @@ def eliminar_hilo(request, hilo_id):
         hilo.delete()
         messages.success(request, "Hilo eliminado correctamente.")
         if request.user.is_staff:
-            return redirect('lista_hilos')
-        return redirect('mis_hilos')
+            return redirect('lista_hilos') 
+
     return render(request, 'hilos/confirm_delete.html', {'hilo': hilo})
 
 @login_required
@@ -151,10 +147,10 @@ def editar_hilo(request, hilo_id):
         form = HiloForm(request.POST, request.FILES, instance=hilo) 
         if form.is_valid():
             form.save()
-            messages.success(request, "✅ Hilo actualizado correctamente.")
+            messages.success(request, "Hilo actualizado correctamente.")
             return redirect('mis_hilos')
         else:
-            messages.error(request, "❌ Hubo un error al actualizar el hilo.")
+            messages.error(request, "Hubo un error al actualizar el hilo.")
     else:
         form = HiloForm(instance=hilo)
     
