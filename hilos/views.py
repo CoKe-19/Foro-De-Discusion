@@ -146,14 +146,15 @@ def mis_hilos(request):
 @login_required
 def editar_hilo(request, hilo_id):
     hilo = get_object_or_404(Hilo, id=hilo_id, usuario=request.user)
+
     if request.method == 'POST':
-        form = HiloForm(request.POST, instance=hilo)
+        form = HiloForm(request.POST, request.FILES, instance=hilo) 
         if form.is_valid():
             form.save()
-            messages.success(request, "Hilo actualizado correctamente.")  
+            messages.success(request, "✅ Hilo actualizado correctamente.")
             return redirect('mis_hilos')
         else:
-            messages.error(request, "Hubo un error al actualizar el hilo.")  
+            messages.error(request, "❌ Hubo un error al actualizar el hilo.")
     else:
         form = HiloForm(instance=hilo)
     
@@ -161,7 +162,7 @@ def editar_hilo(request, hilo_id):
         'form': form,
         'titulo': 'Editar Hilo'
     })
-    
+
 @login_required(login_url="login")
 def administrar_hilos(request):
     if not request.user.is_staff:
