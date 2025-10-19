@@ -1,31 +1,44 @@
 {% extends "hilos/base.html" %}
-{% block title %}Miembros{% endblock %}
+{% block title %}Usuarios del Foro{% endblock %}
+{% load static %}
 {% block content %}
-<section class="card">
-   <h2>Lista de Miembros</h2>
-   {% if usuarios %}
-   <table class="tabla-usuarios">
+<div class="table-container">
+   <div class="table-header">
+      <h2>👤 Miembros del Foro</h2>
+   </div>
+   <table class="table-container">
       <thead>
          <tr>
+            <th>Imagen de perfil</th>
             <th>Usuario</th>
-            <th># Hilos</th>
+            <th>Email</th>
+            <th>Hilos</th>
+            <th>Respuestas</th>
          </tr>
       </thead>
       <tbody>
-         {% for u in usuarios %}
+         {% for usuario in usuarios %}
          <tr>
-            <td>{{ u.username }}</td>
-            <td>{{ u.hilos.count }}</td>
+            <td>
+               {% if usuario.perfil.avatar %}
+               <img src="{{ usuario.perfil.avatar.url }}" alt="Avatar de {{ usuario.username }}" 
+                  style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+               {% else %}
+               <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar" 
+                  style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+               {% endif %}
+            </td>
+            <td>@{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.total_hilos }}</td>
+            <td>{{ usuario.total_respuestas }}</td>
          </tr>
          {% empty %}
          <tr>
-            <td colspan="2">No hay usuarios registrados.</td>
+            <td colspan="5" class="text-muted">No hay usuarios registrados.</td>
          </tr>
          {% endfor %}
       </tbody>
    </table>
-   {% else %}
-   <p>No hay usuarios registrados.</p>
-   {% endif %}
-</section>
+</div>
 {% endblock %}

@@ -126,19 +126,6 @@ WSGI_APPLICATION = 'foro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-#DATABASES = {
-#    "default": {
-#        "ENGINE": "django.db.backends.mysql",
-#        "NAME": "jorge",
-#        "USER": "jorge2",
-#        "PASSWORD": "password",
-#        "HOST": "10.36.16.109",
-#        "PORT": "3306",
-#        "OPTIONS": {"charset": "utf8mb4"},
-#    }
-#}
-#
-
 
 DATABASES = {
     'default': {

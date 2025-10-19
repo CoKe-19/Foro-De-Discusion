@@ -1,53 +1,45 @@
 {% extends "hilos/base.html" %}
 {% load static %}
-{% block title %}Perfil de {{ perfil.user.username }}{% endblock %}
+{% block title %}Perfil de {{ perfil.user.username }} | GamerCoke{% endblock %}
 {% block content %}
-<section class="perfil-container" style="max-width:800px; margin:2rem auto; padding:1.5rem; border:1px solid #ccc; border-radius:10px; background-color:#f9f9f9;">
-   <div class="perfil-header" style="display:flex; gap:2rem; align-items:flex-start;">
-      <!-- Avatar -->
-      <div class="perfil-avatar" style="flex:0 0 150px;">
+<div class="perfil-card">
+   <div class="perfil-header">
+      <div class="perfil-avatar">
          {% if perfil.avatar %}
-         <img src="{{ perfil.avatar.url }}" alt="Avatar de {{ perfil.user.username }}" style="width:150px; height:150px; border-radius:50%; object-fit:cover; border:2px solid #333;">
+         <img src="{{ perfil.avatar.url }}" alt="Avatar de {{ perfil.user.username }}">
          {% else %}
-         <img src="{% static 'foro/img/default-face.png' %}" alt="Avatar por defecto" style="width:150px; height:150px; border-radius:50%; object-fit:cover; border:2px solid #333;">
+         <img src="{% static 'foro/img/default_avatar.png' %}" alt="Avatar por defecto">
          {% endif %}
       </div>
-      <!-- Información del usuario -->
-      <div class="perfil-info" style="flex:1;">
-         <h2>Usuario : ({{ perfil.user.username }})</h2>
-         {% if perfil.user.is_staff %}
-         <p style="color:red; font-weight:bold;">Rol : Staff</p>
-         {% endif %}
-         {% if not perfil.apodo and not perfil.bio and not perfil.ubicacion and not perfil.email %}
+      <div class="perfil-info">
+         <h2>👤 {{ perfil.user.username }}</h2>
+         <p><strong>Email:</strong> {{ perfil.email|default:"(no especificado)" }}</p>
+         <p><strong>Ubicación:</strong> {{ perfil.ubicacion|default:"Sin ubicación" }}</p>
+         <p><strong>Bio:</strong> {{ perfil.bio|default:"Sin biografía" }}</p>
          {% if user == perfil.user %}
-         <div class="perfil-aviso" style="padding:1rem; border:1px solid #ccc; border-radius:8px; background-color:#eee; margin-top:1rem;">
-            <p><strong>¡Bienvenido!</strong> Aún no has completado tu perfil.</p>
-            <p>Por favor, rellena tu información para personalizar tu cuenta.</p>
-            <a href="{% url 'completar_perfil' %}" class="btn-completar" style="display:inline-block; padding:0.5rem 1rem; background:#333; color:#fff; border-radius:6px; text-decoration:none; margin-top:0.5rem;">Completar perfil</a>
-         </div>
-         {% else %}
-         <p>Este usuario aún no ha completado su perfil.</p>
-         {% endif %}
-         {% else %}
-         {% if perfil.apodo %}
-         <p><strong>Apodo:</strong> {{ perfil.apodo }}</p>
-         {% endif %}
-         {% if perfil.bio %}
-         <p><strong>Bio:</strong> {{ perfil.bio }}</p>
-         {% endif %}
-         {% if perfil.ubicacion %}
-         <p><strong>Ubicación:</strong> {{ perfil.ubicacion }}</p>
-         {% endif %}
-         {% if perfil.email %}
-         <p><strong>Email:</strong> {{ perfil.email }}</p>
-         {% endif %}
-         {% if user.is_authenticated and user == perfil.user %}
-         <div class="perfil-botones" style="margin-top:1rem;">
-            <a href="{% url 'completar_perfil' %}" class="btn-brand">Editar perfil</a>
-         </div>
-         {% endif %}
+         <a href="{% url 'completar_perfil' %}" class="btn-edit">
+         ✏️ Editar Perfil
+         </a>
          {% endif %}
       </div>
    </div>
-</section>
+   <hr>
+   <div class="perfil-hilos">
+      <h4>🧵 Hilos creados:</h4>
+      {% if perfil.user.hilos.all %}
+      <ul>
+         {% for hilo in perfil.user.hilos.all %}
+         <li>
+            <a href="{% url 'detalle_hilo' hilo.id %}">
+            {{ hilo.titulo }}
+            </a>
+            <span class="fecha">({{ hilo.fecha|date:"d/m/Y" }})</span>
+         </li>
+         {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-muted">No ha creado hilos aún.</p>
+      {% endif %}
+   </div>
+</div>
 {% endblock %}

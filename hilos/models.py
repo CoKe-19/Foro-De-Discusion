@@ -18,6 +18,7 @@ class Hilo(models.Model):
     contenido = models.TextField()
     fecha = models.DateField(auto_now_add=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name="hilos")
+    imagen = models.ImageField(upload_to='hilos_imagenes/', blank=True, null=True)
 
 class Respuesta(models.Model):
     contenido = models.TextField()

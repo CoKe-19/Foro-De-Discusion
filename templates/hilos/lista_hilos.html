@@ -1,37 +1,50 @@
 {% extends "hilos/base.html" %}
-{% load static %}
+{% block title %}Hilos Generales | GamerCoke{% endblock %}
 {% block content %}
-<section class="card">
-   <header>
-      <h2>Hilos Públicos</h2>
-   </header>
-   <table class="tabla-usuarios">
-      <thead>
-         <tr>
-            <th>Título</th>
-            <th>Usuario</th>
-            <th>Fecha de creacion</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-         </tr>
-      </thead>
-      <tbody>
-         {% for hi in hilos %}
-         <tr>
-            <td>{{ hi.titulo }}</td>
-            <td>{{ hi.usuario.username }}</td>
-            <td>{{ hi.fecha|date:"d/m/Y" }}</td>
-            <td>{{ hi.categoria }}</td>
-            <td>
-               <a href="{% url 'detalle_hilo' hi.id %}" class="btn-brand">Ver</a>
-            </td>
-         </tr>
-         {% empty %}
-         <tr>
-            <td colspan="5">No hay hilos disponibles.</td>
-         </tr>
-         {% endfor %}
-      </tbody>
-   </table>
-</section>
+<div class="container">
+   <div class="table-header">
+      <h2>🧵 Hilos Generales</h2>
+      {% if user.is_authenticated %}
+      <a href="{% url 'hilo_crear' %}" class="btn-primary">+ Crear Hilo</a>
+      {% endif %}
+   </div>
+   <div class="table-container">
+      {% if hilos %}
+      <table>
+         <thead>
+            <tr>
+               <th>#</th>
+               <th>Título</th>
+               <th>Categoría</th>
+               <th>Autor</th>
+               <th>Fecha</th>
+               <th>Acciones</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for hilo in hilos %}
+            <tr>
+               <td>{{ forloop.counter }}</td>
+               <td>{{ hilo.titulo }}</td>
+               <td>{{ hilo.categoria.nombre }}</td>
+               <td>@{{ hilo.usuario.username }}</td>
+               <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
+               <td class="acciones-cell">
+                  <a href="{% url 'detalle_hilo' hilo.id %}" class="btn-view">Ver</a>
+                  {% if hilo.usuario == user %}
+                  <a href="{% url 'editar_hilo' hilo.id %}" class="btn-edit">Editar</a>
+                  <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-delete">Eliminar</a>
+                  {% elif user.is_staff %}
+                  <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-delete">Eliminar</a>
+                  {% endif %}
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      {% else %}
+      <p class="text-muted">No hay hilos disponibles.</p>
+      {% endif %}
+   </div>
+</div>
 {% endblock %}

@@ -5,49 +5,54 @@ from .models import Hilo , Respuesta , Categoria , Like , Perfil
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.db.models import Q
+from django.db.models import Q, Count , Exists, OuterRef
 from django.contrib import messages 
 import re
 
 User = get_user_model() 
 
 def pagina_principal(request):
-    total_usuarios = User.objects.count()
-    total_hilos = Hilo.objects.count()
-    perfiles = Perfil.objects.select_related('user').all()
-    usuarios_destacados = sorted(
-        perfiles,
-        key=lambda p: Hilo.objects.filter(usuario=p.user).count(),
-        reverse=True
-    )[:5]
-    for perfil in usuarios_destacados:
-        perfil.hilos_count = Hilo.objects.filter(usuario=perfil.user).count()
+    categorias = Categoria.objects.prefetch_related('hilos__usuario').all()
 
-    return render(request, "hilos/index.html", {
-        "total_usuarios": total_usuarios,
-        "total_hilos": total_hilos,
-        "usuarios_destacados": usuarios_destacados
+    usuarios_destacados = User.objects.annotate(
+        total_hilos=Count('hilos')
+    ).order_by('-total_hilos')[:10]
+    hilos_recientes = Hilo.objects.select_related('usuario', 'categoria').order_by('-fecha')[:10]
+
+    return render(request, 'hilos/index.html', {
+        'categorias': categorias,
+        'usuarios_destacados': usuarios_destacados,
+        'hilos_recientes': hilos_recientes
     })
-    
-@login_required(login_url="login")
+
+def toggle_like(request, respuesta_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    respuesta = get_object_or_404(Respuesta, id=respuesta_id)
+    like_existente = Like.objects.filter(usuario=request.user, respuesta=respuesta)
+    if like_existente.exists():
+        like_existente.delete() 
+    else:
+        Like.objects.create(usuario=request.user, respuesta=respuesta)  
+    return redirect('detalle_hilo', hilo_id=respuesta.hilo.id)
+
+@login_required
 def registrar_hilo(request):
-    if request.method == 'POST':
-        form = HiloForm(request.POST)
+    if request.method == "POST":
+        form = HiloForm(request.POST, request.FILES)
         if form.is_valid():
             hilo = form.save(commit=False)
             hilo.usuario = request.user
             hilo.save()
-            messages.success(request, "Hilo creado correctamente.")  
-            return redirect('lista_hilos')
+            messages.success(request, "Hilo creado correctamente.")
+            return redirect("pagina_principal")
         else:
-            messages.error(request, "Hubo un error al crear el hilo.") 
+            messages.error(request, "No se pudo crear el hilo. Revisa los campos e inténtalo nuevamente.")
     else:
         form = HiloForm()
-    return render(request, 'hilos/form.html', {
-        'form': form,
-        'titulo': 'Crear Hilo'
-    })
 
+    categorias = Categoria.objects.all()
+    return render(request, "hilos/form.html", {"form": form, "categorias": categorias})
 
 @login_required(login_url="login")
 def lista_hilos(request):
@@ -78,41 +83,46 @@ def registrar_usuario(request):
         'titulo': 'Registro de Usuario' 
     })
 
-@login_required(login_url="login")
 def detalle_hilo(request, hilo_id):
-    hilo = get_object_or_404(Hilo, id=hilo_id)
+    hilo = Hilo.objects.select_related('categoria', 'usuario').prefetch_related('respuestas__usuario').get(id=hilo_id)
+    
+    respuestas = hilo.respuestas.all().order_by('fecha')
+
+    if request.user.is_authenticated:
+        respuestas = respuestas.annotate(
+            ya_dio_like=Exists(
+                Like.objects.filter(usuario=request.user, respuesta=OuterRef('pk'))
+            )
+        )
 
     if request.method == "POST":
-        form = RespuestaForm(request.POST)
-        if form.is_valid():
-            respuesta = form.save(commit=False)
-            respuesta.usuario = request.user
-            respuesta.hilo = hilo
-            respuesta.save()
-            messages.success(request, "Respuesta publicada correctamente.")
-            return redirect("detalle_hilo", hilo_id=hilo.id)
-        else:
-            messages.error(request, "Hubo un error al publicar la respuesta.")
-    else:
-        form = RespuestaForm()
-    respuestas_info = []
-    for resp in hilo.respuestas.all():
-        respuestas_info.append({
-            "respuesta": resp,
-            "ya_like": resp.likes.filter(usuario=request.user).exists(), 
-            "likes_count": resp.likes.count()
-        })
+        if not request.user.is_authenticated:
+            return redirect('login')
+        contenido = request.POST.get('contenido', '').strip()
+        if contenido:
+            Respuesta.objects.create(
+                hilo=hilo,
+                usuario=request.user,
+                contenido=contenido
+            )
+            return redirect('detalle_hilo', hilo_id=hilo.id)
 
-    return render(request, "hilos/detalle_hilo.html", {
-        "hilo": hilo,
-        "form": form,
-        "respuestas_info": respuestas_info
+    return render(request, 'hilos/detalle_hilo.html', {
+        'hilo': hilo,
+        'respuestas': respuestas
     })
-
 
 @login_required(login_url="login")
 def lista_usuarios(request):
-    usuarios = User.objects.all()
+    usuarios = (
+        User.objects
+        .select_related('perfil')
+        .annotate(
+            total_hilos=Count('hilos', distinct=True),
+            total_respuestas=Count('respuestas', distinct=True),  
+        )
+        .order_by('username')
+    )
     return render(request, 'hilos/lista_usuarios.html', {'usuarios': usuarios})
 
 @login_required(login_url="login")
@@ -130,7 +140,7 @@ def eliminar_hilo(request, hilo_id):
 
 @login_required
 def mis_hilos(request):
-    hilos = Hilo.objects.filter(usuario=request.user).order_by('-fecha')
+    hilos = Hilo.objects.filter(usuario=request.user).select_related('categoria')
     return render(request, 'hilos/mis_hilos.html', {'hilos': hilos})
 
 @login_required
@@ -151,9 +161,6 @@ def editar_hilo(request, hilo_id):
         'form': form,
         'titulo': 'Editar Hilo'
     })
-
-def quienes_somos(request):
-    return render(request, 'hilos/quienes_somos.html')
     
 @login_required(login_url="login")
 def administrar_hilos(request):
@@ -252,16 +259,6 @@ def eliminar_categoria(request, categoria_id):
         return redirect('lista_categorias')
     return render(request, 'hilos/confirm_delete_categoria.html', {'categoria': categoria})
 
-@login_required(login_url="login")
-def like_respuesta(request, respuesta_id):
-    respuesta = get_object_or_404(Respuesta, id=respuesta_id)
-    like = Like.objects.filter(usuario=request.user, respuesta=respuesta).first()
-    if like:
-        like.delete()
-    else:
-        Like.objects.create(usuario=request.user, respuesta=respuesta)
-    return redirect("detalle_hilo", hilo_id=respuesta.hilo.id)
-
 def ver_perfil(request, username):
     user = get_object_or_404(User, username=username)
     perfil, created = Perfil.objects.get_or_create(user=user)
@@ -269,15 +266,21 @@ def ver_perfil(request, username):
 
 @login_required
 def completar_perfil(request):
-    perfil, created = Perfil.objects.get_or_create(user=request.user)
-    if request.method == 'POST':
+    perfil = request.user.perfil
+    if request.method == "POST":
         form = PerfilForm(request.POST, request.FILES, instance=perfil)
         if form.is_valid():
             form.save()
             return redirect('ver_perfil', username=request.user.username)
     else:
         form = PerfilForm(instance=perfil)
-    return render(request, 'hilos/completar_perfil.html', {'form': form})
+        return render(request, 'hilos/form.html', {
+            'form': form,
+            'titulo': 'Editar Perfil',
+            'boton_texto': 'Guardar cambios',
+            'volver_url': 'ver_perfil',
+            'volver_args': [request.user.username], 
+        })
 
 def buscar(request):
     query = request.GET.get('query', '')
@@ -292,3 +295,26 @@ def buscar(request):
                 flags=re.IGNORECASE
             )
     return render(request, 'hilos/buscar.html', {'resultados': resultados, 'query': query})
+
+def filtrar_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+    hilos = categoria.hilos.all() 
+    return render(request, 'hilos/lista_hilos.html', {
+        'categoria': categoria,
+        'hilos': hilos
+    })
+
+def faq(request):
+    return render(request, 'hilos/faq.html')
+
+def reglas(request):
+    return render(request, 'hilos/reglas.html')
+
+def acuerdo(request):
+    return render(request, 'hilos/acuerdo.html')
+
+def quienes_somos(request):
+    return render(request, 'hilos/quienes_somos.html')
+
+def guias(request):
+    return render(request, 'hilos/guias.html')

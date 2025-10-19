@@ -1,75 +1,72 @@
 {% extends "hilos/base.html" %}
 {% load static %}
+{% block title %}{{ hilo.titulo }} | GamerCoke{% endblock %}
 {% block content %}
-<section class="card">
-   <header>
-      <h1>{{ hilo.titulo }}</h1>
-      <p>Creado por: <strong>{{ hilo.usuario.username }}</strong> 
-         Fecha: {{ hilo.fecha|date:"d/m/Y" }} 
-         Categoría: {{ hilo.categoria.nombre }}
-      </p>
-   </header>
-   <section class="contenido-hilo">
-      <p>{{ hilo.contenido }}</p>
-   </section>
-   <section class="respuestas">
-      <h2>Respuestas</h2>
-      <ul>
-         {% for info in respuestas_info %}
-         <li class="respuesta-item">
-            <div class="avatar">
-               <a href="{% url 'ver_perfil' info.respuesta.usuario.username %}">
-               {% if info.respuesta.usuario.perfil.avatar %}
-               <img src="{{ info.respuesta.usuario.perfil.avatar.url }}" 
-                  alt="Avatar de {{ info.respuesta.usuario.username }}" 
-                  style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
-               {% else %}
-               <img src="{% static 'foro/img/default-face.png' %}" 
-                  alt="Avatar por defecto" 
-                  style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
-               {% endif %}
-               </a>
-            </div>
-            <div class="respuesta-contenido" style="flex:1; display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; flex-wrap:wrap;">
-               <div class="texto-respuesta" style="flex:1; word-wrap:break-word; overflow-wrap:break-word;">
-                  <strong>{{ info.respuesta.usuario.username }}</strong>: {{ info.respuesta.contenido }}<br>
-                  <small>{{ info.respuesta.fecha|date:"d/m/Y" }}</small>
-               </div>
-               <div class="botones-respuesta" style="display:flex; gap:0.3rem; flex-shrink:0; flex-wrap:wrap;">
-                  {% if user.is_authenticated %}
-                     {% if info.ya_like %}
-                        <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post">
-                           {% csrf_token %}
-                           <button type="submit" class="btn-like liked">❤️ {{ info.likes_count }}</button>
-                        </form>
-                     {% else %}
-                        <form action="{% url 'like_respuesta' info.respuesta.id %}" method="post">
-                           {% csrf_token %}
-                           <button type="submit" class="btn-like">🤍 {{ info.likes_count }}</button>
-                        </form>
-                     {% endif %}
-                     {% if user == info.respuesta.usuario %}
-                        <a href="{% url 'editar_respuesta' info.respuesta.id %}" class="btn-brand">Editar</a>
-                        <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-danger">Eliminar</a>
-                     {% elif user.is_staff %}
-                        <a href="{% url 'eliminar_respuesta' info.respuesta.id %}" class="btn-danger">Eliminar</a>
-                     {% endif %}
+<div class="container mt-4">
+   <article class="post">
+      <h2>{{ hilo.titulo }}</h2>
+      <small class="post-meta">
+      Categoría <strong>{{ hilo.categoria.nombre }}</strong> — 
+      por <a href="{% url 'ver_perfil' hilo.usuario.username %}">@{{ hilo.usuario.username }}</a> — 
+      {{ hilo.fecha|date:"d M Y" }}
+      </small>
+      {% if hilo.imagen %}
+      <img src="{{ hilo.imagen.url }}" alt="Imagen del hilo" class="img-detail">
+      {% endif %}
+      <p>{{ hilo.contenido|linebreaks }}</p>
+   </article>
+   <section class="comments">
+      <h4>💬 Comentarios</h4>
+      {% if user.is_authenticated %}
+      {% if respuestas %}
+      {% for respuesta in respuestas %}
+      <div class="comment-card">
+         <p>{{ respuesta.contenido|linebreaks }}</p>
+         <div class="comment-meta">
+            <span>Por <strong>@{{ respuesta.usuario.username }}</strong></span>
+            <span>{{ respuesta.fecha|date:"d/m/Y" }}</span>
+         </div>
+         <div class="comment-actions">
+            <div class="like-section">
+               <form method="post" action="{% url 'toggle_like' respuesta.id %}">
+                  {% csrf_token %}
+                  {% if respuesta.ya_dio_like %}
+                  <button type="submit" class="btn-like active">❤️ Quitar Like</button>
+                  {% else %}
+                  <button type="submit" class="btn-like">🤍 Me gusta</button>
                   {% endif %}
-               </div>
+               </form>
+               <span class="like-count">{{ respuesta.likes.count }} me gusta</span>
             </div>
-         </li>
-         {% empty %}
-         <li>No hay respuestas aún.</li>
-         {% endfor %}
-      </ul>
+            <div class="owner-actions">
+               {% if respuesta.usuario == user %}
+               <a href="{% url 'respuesta_editar' respuesta.id %}" class="btn-edit">✏️ Editar</a>
+               <a href="{% url 'respuesta_eliminar' respuesta.id %}" class="btn-delete">🗑️ Eliminar</a>
+               {% elif user.is_staff %}
+               <a href="{% url 'respuesta_eliminar' respuesta.id %}" class="btn-delete">🗑️ Eliminar</a>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p class="text-muted">Aún no hay comentarios. ¡Sé el primero en opinar!</p>
+      {% endif %}
+      <div class="comentario-box">
+         <h5>🗨️ Agrega tu comentario</h5>
+         <form method="post">
+            {% csrf_token %}
+            <div class="comentario-input">
+               <textarea name="contenido" rows="3" placeholder="Escribe algo interesante..." required></textarea>
+               <button type="submit" class="btn-publicar">Publicar</button>
+            </div>
+         </form>
+      </div>
+      {% else %}
+      <div class="comment-card">
+         <p>🔒 Debes <a href="{% url 'login' %}">iniciar sesión</a> para comentar o dar “me gusta”.</p>
+      </div>
+      {% endif %}
    </section>
-   <section class="agregar-respuesta">
-      <h2>Agregar Respuesta</h2>
-      <form method="post" class="form">
-         {% csrf_token %}
-         {{ form.as_p }}
-         <button type="submit" class="btn-brand">Enviar</button>
-      </form>
-   </section>
-</section>
+</div>
 {% endblock %}

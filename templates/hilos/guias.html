@@ -1,0 +1,47 @@
+{% extends "hilos/base.html" %}
+{% load static %}
+{% block title %}Guías de Programación | GamerCoke{% endblock %}
+{% block content %}
+<div class="guias-container">
+   <h2 class="section-title">💻 Guías y Cursos de Programación</h2>
+   <p class="section-subtitle">Aprende desarrollo, programación y buenas prácticas con los mejores videos educativos 🚀</p>
+   <div class="videos-grid">
+      <!-- 🐍 Python -->
+      <div class="video-card">
+         <iframe src="https://www.youtube.com/embed/_uQrJ0TkZlc" title="Curso completo de Python para principiantes" allowfullscreen></iframe>
+         <h3>Curso completo de Python para principiantes</h3>
+         <p>Aprende Python desde cero en este curso práctico de más de 4 horas.</p>
+      </div>
+      <!-- 🧠 Git y GitHub -->
+      <div class="video-card">
+         <iframe src="https://www.youtube.com/embed/apGV9Kg7ics" title="Curso Git y GitHub desde cero" allowfullscreen></iframe>
+         <h3>Curso Git y GitHub desde cero — FreeCodeCamp</h3>
+         <p>Domina Git, GitHub y el control de versiones con un curso claro y completo.</p>
+      </div>
+      <!-- ⚙️ HTML y CSS -->
+      <div class="video-card">
+         <iframe src="https://www.youtube.com/embed/pQN-pnXPaVg" title="Curso completo de HTML y CSS" allowfullscreen></iframe>
+         <h3>Curso completo de HTML y CSS</h3>
+         <p>Aprende a crear páginas web modernas y responsive con HTML5 y CSS3.</p>
+      </div>
+      <!-- 🧩 JavaScript -->
+      <div class="video-card">
+         <iframe src="https://www.youtube-nocookie.com/embed/hdI2bqOjy3c" title="Curso completo de JavaScript desde cero" allowfullscreen></iframe>
+         <h3>Curso completo de JavaScript desde cero</h3>
+         <p>Domina los fundamentos de JavaScript con ejemplos prácticos paso a paso.</p>
+      </div>
+      <!-- ⚛️ React -->
+      <div class="video-card">
+         <iframe src="https://www.youtube.com/embed/bMknfKXIFA8" title="Curso de React para principiantes" allowfullscreen></iframe>
+         <h3>Curso de React para principiantes</h3>
+         <p>Aprende a construir interfaces modernas y dinámicas con React y componentes.</p>
+      </div>
+      <!-- 🐘 SQL -->
+      <div class="video-card">
+         <iframe src="https://www.youtube.com/embed/HXV3zeQKqGY" title="Curso completo de SQL" allowfullscreen></iframe>
+         <h3>Curso completo de SQL</h3>
+         <p>Domina bases de datos y aprende a hacer consultas SQL con ejemplos reales.</p>
+      </div>
+   </div>
+</div>
+{% endblock %}

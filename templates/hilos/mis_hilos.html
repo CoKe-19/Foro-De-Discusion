@@ -1,34 +1,42 @@
 {% extends "hilos/base.html" %}
-{% block title %}Mis Hilos{% endblock %}
+{% block title %}Mis Hilos | GamerCoke{% endblock %}
 {% block content %}
-<section class="card">
-   <h2>Mis Hilos</h2>
-   <table class="tabla-usuarios">
-      <thead>
-         <tr>
-            <th>Título</th>
-            <th>Fecha de creacion</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-         </tr>
-      </thead>
-      <tbody>
-         {% for hilo in hilos %}
-         <tr>
-            <td>{{ hilo.titulo }}</td>
-            <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
-            <td>{{ hilo.categoria.nombre }}</td>
-            <td style="white-space: nowrap;">
-               <a href="{% url 'editar_hilo' hilo.id %}" class="btn-brand">Editar</a>
-               <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-danger">Eliminar</a>
-            </td>
-         </tr>
-         {% empty %}
-         <tr>
-            <td colspan="4">No tienes hilos creados.</td>
-         </tr>
-         {% endfor %}
-      </tbody>
-   </table>
-</section>
+<div class="container">
+   <div class="table-header">
+      <h2>📂 Mis Hilos</h2>
+      <a href="{% url 'hilo_crear' %}" class="btn-primary">+ Crear Hilo</a>
+   </div>
+   <div class="table-container">
+      {% if hilos %}
+      <table>
+         <thead>
+            <tr>
+               <th>#</th>
+               <th>Título</th>
+               <th>Fecha</th>
+               <th>Categoría</th>
+               <th>Acciones</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for hilo in hilos %}
+            <tr>
+               <td>{{ forloop.counter }}</td>
+               <td>{{ hilo.titulo }}</td>
+               <td>{{ hilo.fecha|date:"d/m/Y" }}</td>
+               <td>{{ hilo.categoria.nombre }}</td>
+               <td class="acciones-cell">
+                  <a href="{% url 'detalle_hilo' hilo.id %}" class="btn-view">Ver</a>
+                  <a href="{% url 'editar_hilo' hilo.id %}" class="btn-edit">Editar</a>
+                  <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-delete">Eliminar</a>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      {% else %}
+      <p class="text-muted">Aún no has creado ningún hilo.</p>
+      {% endif %}
+   </div>
+</div>
 {% endblock %}

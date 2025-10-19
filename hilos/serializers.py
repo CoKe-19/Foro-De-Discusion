@@ -18,7 +18,6 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
 class HiloSerializer(serializers.ModelSerializer):
     categoria_info = CategoriaSerializer(source="categoria", read_only=True)
-
     class Meta:
         model = Hilo
         fields = [

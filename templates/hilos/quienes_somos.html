@@ -1,20 +1,43 @@
 {% extends "hilos/base.html" %}
 {% load static %}
-{% block title %}Quiénes Somos - Foro GamerCoke{% endblock %}
+{% block title %}Quiénes Somos | GamerCoke{% endblock %}
 {% block content %}
-<section id="quienes_somos" class="card">
-   <h2>Quiénes Somos</h2>
-   <img src="{% static 'foro/img/grupos.jpg' %}" alt="Equipo GamerCoke">
-   <p>
-      <strong>Foro GamerCoke</strong> es un foro gamer creado en 2025 con la idea de reunir a jugadores de todas partes en un espacio donde puedan compartir experiencias, noticias y estrategias de juego.
+<div class="comment-card" style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
+   <h2 style="color: var(--accent); font-weight: 800; text-align: center;">
+      🎮 ¿Quiénes Somos?
+   </h2>
+   <img src="{% static 'foro/img/grupos.jpg' %}" alt="quienes-somos" class="img-quienes">
+   <p style="text-align: center; color: var(--muted); margin-bottom: 2rem;">
+      Comunidad GamerCoke — unidos por la pasión a los videojuegos.
    </p>
-   <h3>Nuestra Historia</h3>
-   <p>
-      Nacimos en 2025 como un proyecto independiente de entusiastas de los videojuegos que querían crear un lugar seguro y dinámico para la comunidad gamer. Desde entonces, hemos crecido y seguimos ampliando nuestras secciones y contenidos para todos los jugadores.
-   </p>
-   <h3>Misión</h3>
-   <p>
-      Proporcionar una plataforma accesible, divertida y segura para que los jugadores puedan conectarse, aprender y compartir sus pasiones.
-   </p>
-</section>
+   <section style="line-height: 1.8; color: var(--text);">
+      <p>
+         En <strong>GamerCoke</strong> somos una comunidad creada por jugadores para jugadores. 
+         Nuestro objetivo es ofrecer un espacio donde puedas compartir tus experiencias, 
+         debatir sobre tus títulos favoritos y mantenerte informado con las últimas noticias del mundo gamer.
+      </p>
+      <p>
+         Aquí puedes crear <strong>hilos de conversación</strong>, publicar tus ideas, 
+         recomendar juegos, organizar partidas o simplemente conocer a otros jugadores 
+         que comparten tu misma pasión.
+      </p>
+      <p>
+         El foro está pensado para fomentar una comunidad respetuosa, activa y participativa.
+         Si eres nuevo, te damos la bienvenida; y si ya formas parte, gracias por ayudar a 
+         construir este espacio día a día.
+      </p>
+      <hr style="margin: 2rem 0;">
+      <h3 style="color: var(--accent);">💡 Nuestra misión</h3>
+      <p>
+         Promover la cultura gamer y el respeto entre jugadores, ofreciendo un entorno donde 
+         cada voz cuente y cada opinión sea valorada.
+      </p>
+      <h3 style="color: var(--accent); margin-top: 1.5rem;">👥 Nuestro equipo</h3>
+      <ul style="list-style: none; padding-left: 0;">
+         <li>🎮 <strong>Jorgerrison </strong> — Fundador y desarrollador principal</li>
+         <li>🧠 <strong>Moderadores</strong> — Encargados de mantener el orden y la buena vibra</li>
+         <li>💬 <strong>Comunidad</strong> — El corazón de GamerCoke</li>
+      </ul>
+   </section>
+</div>
 {% endblock %}

@@ -1,31 +1,37 @@
 {% extends "hilos/base.html" %}
-{% block title %}Lista de Categorías{% endblock %}
+{% block title %}Categorías | GamerCoke{% endblock %}
 {% block content %}
-<section class="card">
-   <h2>Categorías</h2>
-   <a href="{% url 'crear_categoria' %}" class="btn-brand">Crear Nueva Categoría</a>
-   <table class="tabla-usuarios">
-      <thead>
-         <tr>
-            <th>Nombre</th>
-            <th>Acciones</th>
-         </tr>
-      </thead>
-      <tbody>
-         {% for cat in categorias %}
-         <tr>
-            <td>{{ cat.nombre }}</td>
-            <td>
-               <a href="{% url 'editar_categoria' cat.id %}" class="btn-brand">Editar</a>
-               <a href="{% url 'eliminar_categoria' cat.id %}" class="btn-danger">Eliminar</a>
-            </td>
-         </tr>
-         {% empty %}
-         <tr>
-            <td colspan="2">No hay categorías.</td>
-         </tr>
-         {% endfor %}
-      </tbody>
-   </table>
-</section>
+<div class="container">
+   <div class="table-header">
+      <h2>📁 Categorías</h2>
+      <a href="{% url 'categoria_crear' %}" class="btn-primary">+ Nueva Categoría</a>
+   </div>
+   <div class="table-container">
+      <table>
+         <thead>
+            <tr>
+               <th>#</th>
+               <th>Nombre</th>
+               <th>Acciones</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for categoria in categorias %}
+            <tr>
+               <td>{{ forloop.counter }}</td>
+               <td>{{ categoria.nombre }}</td>
+               <td class="acciones-cell">
+                  <a href="{% url 'categoria_editar' categoria.id %}" class="btn-edit">Editar</a>
+                  <a href="{% url 'categoria_eliminar' categoria.id %}" class="btn-delete">Eliminar</a>
+               </td>
+            </tr>
+            {% empty %}
+            <tr>
+               <td colspan="3" class="text-muted text-center">No hay categorías registradas.</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+</div>
 {% endblock %}

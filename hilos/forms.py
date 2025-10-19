@@ -13,7 +13,7 @@ class UsuarioForm(UserCreationForm):
 class HiloForm(forms.ModelForm):
     class Meta:
         model = Hilo
-        fields = ["titulo","contenido","categoria"]
+        fields = ['titulo', 'categoria', 'contenido', 'imagen']
 
     def clean_titulo(self):
         titulo = self.cleaned_data.get("titulo")

@@ -1,17 +1,17 @@
 {% extends "hilos/base.html" %}
 {% block content %}
 <section class="card">
-  <h2>Resultados para "{{ query }}"</h2>
-  {% if resultados %}
-    {% for hilo in resultados %}
-      <article class="resultado">
-        <h3>{{ hilo.titulo_resaltado|safe }}</h3>
-        <p>{{ hilo.contenido|truncatechars:120 }}</p>
-        <a href="{% url 'detalle_hilo' hilo.id %}" class="btn-brand">Ver Hilo Completo</a>
-      </article>
-    {% endfor %}
-  {% else %}
-    <p>No se encontraron resultados.</p>
-  {% endif %}
+   <h2>Resultados para "{{ query }}"</h2>
+   {% if resultados %}
+   {% for hilo in resultados %}
+   <article class="resultado">
+      <h3>{{ hilo.titulo_resaltado|safe }}</h3>
+      <p>{{ hilo.contenido|truncatechars:120 }}</p>
+      <a href="{% url 'detalle_hilo' hilo.id %}" class="btn-brand">Ver Hilo Completo</a>
+   </article>
+   {% endfor %}
+   {% else %}
+   <p>No se encontraron resultados.</p>
+   {% endif %}
 </section>
 {% endblock %}
