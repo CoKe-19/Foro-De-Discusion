@@ -1,0 +1,12 @@
+/* =================== 🎮 BOTONES =================== */ 
+.btn-login,.btn-register,.btn-logout,.btn-primary,.btn-outline-secondary,.btn-edit,.btn-delete,.btn-view{border-radius:25px;padding:6px 16px;font-weight:600;cursor:pointer;transition:all .25s ease;text-decoration:none;display:inline-block} 
+.btn-login{background:linear-gradient(90deg,#00a2ff,#007bff);color:#fff;box-shadow:0 3px 8px rgba(0,162,255,.4)} 
+.btn-login:hover{background:#0094f0;transform:translateY(-1px)} 
+.btn-register{border:2px solid #00a2ff;color:#00a2ff;background:transparent} 
+.btn-register:hover{background:#00a2ff;color:#fff;box-shadow:0 3px 8px rgba(0,162,255,.4)} 
+.btn-logout{background:linear-gradient(90deg,#ff3b30,#e60026);color:#fff;box-shadow:0 3px 8px rgba(255,59,48,.4)} 
+.btn-logout:hover{background:linear-gradient(90deg,#ff554a,#ff1e00);box-shadow:0 4px 12px rgba(255,59,48,.6);transform:translateY(-1px)} 
+.btn-view{background:linear-gradient(90deg,var(--accent),var(--accent-hover));color:#fff} 
+.btn-edit{background:linear-gradient(90deg,#facc15,#eab308);color:#111} 
+.btn-delete{background:linear-gradient(90deg,#ef4444,#dc2626);color:#fff} 
+.btn-view:hover,.btn-edit:hover,.btn-delete:hover{transform:translateY(-1px)}

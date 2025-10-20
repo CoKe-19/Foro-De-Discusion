@@ -15,12 +15,12 @@
          Tu navegador no soporta video HTML5.
       </video>
       <p><strong>{{ video.titulo }}</strong><br>
-         <small>Por @{{ video.autor.username }}</small></p>
+         <small>Por @{{ video.autor.username }}</small>
+      </p>
       <p>{{ video.descripcion|truncatewords:20 }}</p>
    </div>
    {% endfor %}
    {% endif %}
-
    {# 2. Aquí vienen las categorías como siempre #}
    <h2 class="mb-4">🧩 Hilos más destacados</h2>
    {% for categoria in categorias %}

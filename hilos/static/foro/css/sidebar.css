@@ -1,0 +1,16 @@
+/* =================== 🧱 SIDEBAR (USUARIOS DESTACADOS) =================== */ 
+.forum-layout{display:grid!important;grid-template-columns:minmax(0,2.1fr) minmax(0,.9fr);gap:2rem;align-items:start} 
+.forum-layout .forum-main,.forum-layout .forum-sidebar{min-width:0} 
+.forum-sidebar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;position:sticky;top:100px;height:fit-content} 
+.forum-sidebar h5{color:var(--accent);font-weight:700;border-bottom:2px solid var(--accent);padding-bottom:.4rem;margin-bottom:1rem} 
+.user-card{border:1px solid #2c2c2c;border-radius:10px;padding:10px;margin-bottom:10px;transition:transform .2s ease,box-shadow .2s ease} 
+.user-card:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,107,255,.3)} 
+.user-info{display:flex;align-items:center;gap:10px} 
+.avatar-small{width:45px;height:45px;border-radius:50%;object-fit:cover;border:2px solid #1d4ed8} 
+.user-meta{display:flex;flex-direction:column;justify-content:center;flex:1} 
+.user-header{display:flex;align-items:center;flex-wrap:wrap;gap:6px} 
+.user-link{color:#3b82f6;font-weight:bold;text-decoration:none;font-size:.95rem;white-space:nowrap} 
+.rol-admin{background-color:#dc2626;color:#fff;font-size:.75rem;padding:2px 6px;border-radius:6px} 
+.user-hilos{color:#ccc;font-size:.85rem;margin-top:3px} 
+.badge-admin{background:#e63946;color:#fff;font-size:.75rem;padding:2px 8px;border-radius:10px;margin-left:6px} 
+.badge-destacado{background:linear-gradient(90deg,#ffd43b,#ffb703);color:#111;font-size:.75rem;border-radius:10px;padding:2px 8px;margin-left:6px}

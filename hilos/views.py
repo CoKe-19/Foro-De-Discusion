@@ -130,8 +130,9 @@ def eliminar_hilo(request, hilo_id):
         hilo.delete()
         messages.success(request, "Hilo eliminado correctamente.")
         if request.user.is_staff:
-            return redirect('lista_hilos') 
-
+            return redirect('lista_hilos')
+        else:
+            return redirect('mis_hilos') 
     return render(request, 'hilos/confirm_delete.html', {'hilo': hilo})
 
 @login_required
@@ -300,6 +301,9 @@ def filtrar_categoria(request, categoria_id):
         'categoria': categoria,
         'hilos': hilos
     })
+
+def politica(request):
+    return render(request, 'hilos/politica.html')
 
 def faq(request):
     return render(request, 'hilos/faq.html')

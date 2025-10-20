@@ -1,0 +1,13 @@
+/* =================== 💬 HILOS / POSTS =================== */ 
+.thread,.post,.comment-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease} 
+.thread{padding:1.3rem 1.6rem;margin-bottom:1.8rem} 
+.post{padding:1.6rem 1.8rem;margin-bottom:1.5rem} 
+.thread:hover,.post:hover,.comment-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,107,255,.25)} 
+.thread h4{color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:.3rem;margin-bottom:1rem;font-weight:700} 
+.post-meta{color:var(--muted);font-size:.9rem;margin-bottom:1rem} 
+.post-meta strong,.post-meta a{color:var(--accent);font-weight:600} 
+.post-meta a:hover{color:var(--accent-hover)} 
+.thumb,.img-detail{width:100%;object-fit:cover;border:1px solid var(--border);border-radius:10px;box-shadow:0 3px 8px rgba(0,0,0,.25);transition:transform .25s ease,box-shadow .25s ease} 
+.thumb{max-width:650px;height:280px;margin-top:.8rem} 
+.thumb:hover{transform:scale(1.02);box-shadow:0 6px 14px rgba(0,107,255,.3)} 
+.img-detail{margin-bottom:1rem}

@@ -1,0 +1,29 @@
+/* =================== 🟡 EXTRAS / BANNER MERCADO LIBRE =================== */ 
+.banner-ml{width:min(920px,95vw);margin:12px auto;border-radius:12px;overflow:hidden;background:#ffde2a;box-shadow:0 6px 16px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;padding:12px 16px} 
+.banner-ml img{display:block;max-width:100%;height:auto;max-height:100px} 
+@media(max-width:768px){.banner-ml{padding:10px 14px}.banner-ml img{max-height:80px}} 
+@media(max-width:420px){.banner-ml img{max-height:64px}} 
+@media(max-width:900px){.forum-layout{display:block!important}.home-layout .forum-sidebar{position:relative;top:auto;margin-top:2rem}}
+
+.about-card{background:var(--card,#111827);border:1px solid var(--border,#2c2c2c);border-radius:14px;box-shadow:0 4px 15px rgba(0,0,0,.4);max-width:900px;margin:2.5rem auto;padding:2.5rem;color:var(--text,#e5e7eb);line-height:1.8;animation:fadeIn .4s ease-in-out}
+.about-title{text-align:center;color:var(--accent,#3b82f6);font-weight:800;font-size:1.9rem;margin-bottom:.4rem}
+.about-subtitle{text-align:center;color:var(--muted,#9ca3af);font-size:1rem;margin-bottom:2rem}
+.about-content h3{color:var(--accent,#3b82f6);font-size:1.2rem;margin-top:1.5rem;margin-bottom:.5rem}
+.about-content ul{list-style:none;padding-left:0;margin-top:.8rem}
+.about-content li{padding:.3rem 0;color:var(--text)}
+.about-divider{border:0;border-top:1px solid var(--border,#2c2c2c);margin:2rem 0}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ================= 🔍 RESULTADOS DE BÚSQUEDA (SEARCH CARD) ================= */
+.search-card{background:#15181d;border:1px solid #2a2e35;border-radius:14px;box-shadow:0 4px 15px rgba(0,0,0,.4);padding:2rem;max-width:900px;margin:2.5rem auto;color:#f5f5f5}
+.search-card h2{font-size:1.6rem;color:#3b82f6;font-weight:800;margin-bottom:1.5rem;text-align:center}
+.search-card .resultado{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1.3rem;transition:all .3s ease}
+.search-card .resultado:hover{background:rgba(0,98,255,.08);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,140,255,.25)}
+.search-card .resultado h3{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.5rem;transition:color .3s ease}
+.search-card .resultado h3:hover{color:#3b82f6}
+.search-card .resultado p{color:#cfcfcf;font-size:.95rem;line-height:1.5;margin-bottom:.8rem}
+.search-card .btn-brand{display:inline-block;background:linear-gradient(90deg,#007bff,#00bfff);color:#fff;padding:.45rem 1rem;border-radius:8px;text-decoration:none;font-weight:600;transition:all .25s ease}
+.search-card .btn-brand:hover{background:linear-gradient(90deg,#00bfff,#007bff);box-shadow:0 0 8px rgba(0,195,255,.4);transform:translateY(-1px)}
+.search-card mark{background:#ffeb3b;color:#111;padding:0 2px;border-radius:3px;font-weight:700}
+.search-card p.text-muted,.search-card p:not(.resultado p){text-align:center;color:#9ca3af;font-size:1rem;margin-top:1.5rem}
+

@@ -1,0 +1,7 @@
+/* =================== ⚙️ BASE / VARIABLES / RESET =================== */ 
+:root{--bg:#edf0f5;--card:#fff;--text:#111827;--muted:#6b7280;--accent:#007bff;--accent-hover:#0058d4;--danger:#e63946;--border:#d1d5db;--radius:12px;--shadow:0 3px 12px rgba(0,0,0,.07)} 
+@media(prefers-color-scheme:dark){:root{--bg:#0d1117;--card:#161b22;--text:#f2f4f8;--muted:#a0a6b2;--accent:#1f6feb;--accent-hover:#3c91ff;--danger:#f87171;--border:#2b3341;--shadow:0 4px 10px rgba(0,0,0,.7)}} 
+body{background:var(--bg);color:var(--text);font-family:"Inter","Segoe UI",Roboto,sans-serif;margin:0;line-height:1.6} 
+a{color:var(--accent);text-decoration:none;transition:color .2s ease} 
+a:hover{color:var(--accent-hover)} 
+.container{max-width:1100px;margin:2rem auto;padding:0 1rem}

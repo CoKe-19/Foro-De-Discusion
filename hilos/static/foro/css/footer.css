@@ -1,0 +1,14 @@
+/* =================== ⚫ FOOTER =================== */ 
+.footer{text-align:center;padding:1rem;border-top:1px solid var(--border);color:var(--muted)} 
+.gamer-footer{background:linear-gradient(180deg,#0a0e18,#101522);border-top:2px solid var(--accent);padding-top:2rem;color:var(--muted);font-size:.95rem;margin-top:3rem} 
+.footer-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2.5rem;max-width:1100px;margin:0 auto;padding:0 1.5rem} 
+.footer-left h3,.footer-center h4,.footer-right h4{color:var(--accent);font-weight:700;margin-bottom:.6rem} 
+.footer-center ul{list-style:none;padding:0} 
+.footer-center li{margin-bottom:.4rem} 
+.footer-center a{color:var(--text);opacity:.8;transition:opacity .2s,color .2s} 
+.footer-center a:hover{opacity:1;color:var(--accent-hover)} 
+.social-links{display:flex;gap:1rem} 
+.social-links a{color:var(--accent);font-size:1.4rem;transition:transform .2s,color .2s} 
+.social-links a:hover{color:var(--accent-hover);transform:translateY(-3px)} 
+.footer-bottom{text-align:center;border-top:1px solid var(--border);margin-top:2rem;padding:1rem;font-size:.85rem;color:var(--muted);background:rgba(0,0,0,.15)} 
+.footer-bottom strong{color:var(--accent)}

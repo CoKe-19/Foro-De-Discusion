@@ -5,14 +5,13 @@
       <meta charset="UTF-8" />
       <title>{% block title %}Foro GamerCoke{% endblock %}</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-      <link rel="stylesheet" href="{% static 'foro/css/style.css' %}?v=v28">
+      <link rel="stylesheet" href="{% static 'foro/css/style.css' %}?v=v42">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
    </head>
    <body class="{% block body_class %}{% endblock %}">
       <header class="header">
          <!-- Izquierda: Logo + navegación -->
          <div class="navbar-nav d-flex flex-row align-items-center gap-3" style="flex-wrap: wrap;">
-            <img src="{% static 'foro/img/logoforocoke.png' %}" alt="Logo Foro" class="logo-img" />
             <span class="logo-text">🎮Foro Coke</span>
             <nav class="nav-links">
                <a href="{% url 'pagina_principal' %}">Inicio</a>
@@ -31,14 +30,16 @@
             </nav>
          </div>
          <!-- Centro: Barra de búsqueda -->
-               <div class="search-container">
-               <form class="search-bar" method="GET" action="{% url 'buscar' %}">
-                  <input type="text" name="query" placeholder="Buscar en el foro..." required>
-                  <button type="submit">
-                     <i class="bi bi-search"></i>
+         <div class="search-container">
+            <form class="search-form d-flex align-items-center" method="GET" action="{% url 'buscar' %}">
+               <div class="input-group stylish-search">
+                  <input type="text" class="form-control" name="query" placeholder="Buscar en el foro..." required>
+                  <button class="btn btn-search" type="submit">
+                  <i class="bi bi-search"></i>
                   </button>
-               </form>
                </div>
+            </form>
+         </div>
          <!-- Derecha: Usuario y sesión -->
          <div class="nav-right flex-row align-center">
             {% if user.is_authenticated %}
@@ -88,7 +89,7 @@
                   <li><a href="{% url 'pagina_principal' %}">Inicio</a></li>
                   <li><a href="{% url 'reglas' %}">Reglas</a></li>
                   <li><a href="{% url 'acuerdo' %}">Acuerdo del usuario</a></li>
-                  <li><a href="#">Política</a></li>
+                  <li><a href="{% url 'politica' %}">Política</a></li>
                </ul>
             </div>
             <div class="footer-right">

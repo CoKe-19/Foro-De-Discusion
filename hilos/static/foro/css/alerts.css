@@ -1,0 +1,7 @@
+/* =================== ⚡ ALERTAS / MENSAJES DJANGO =================== */ 
+.message{max-width:900px;margin:1rem auto;padding:.9rem 1.2rem;border-radius:10px;font-weight:600;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.25)} 
+.message.success{background:linear-gradient(90deg,#16a34a,#22c55e);color:#f0fdf4;border:1px solid #15803d} 
+.message.error,.message.danger{background:linear-gradient(90deg,#dc2626,#ef4444);color:#fef2f2;border:1px solid #991b1b} 
+.message.info{background:linear-gradient(90deg,#2563eb,#3b82f6);color:#eff6ff;border:1px solid #1e3a8a} 
+.message.warning{background:linear-gradient(90deg,#eab308,#facc15);color:#1a1a1a;border:1px solid #b45309} 
+.message.toast{position:absolute;top:90px;right:25px;display:inline-block;z-index:100}
