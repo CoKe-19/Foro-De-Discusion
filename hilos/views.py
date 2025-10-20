@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from .forms import HiloForm, UsuarioForm, RespuestaForm ,CategoriaForm , PerfilForm
-from .models import Hilo , Respuesta , Categoria , Like , Perfil
+from .models import Hilo , Respuesta , Categoria , Like , Perfil , Video
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -13,18 +13,18 @@ User = get_user_model()
 
 def pagina_principal(request):
     categorias = Categoria.objects.prefetch_related('hilos__usuario').all()
-
     usuarios_destacados = User.objects.annotate(
         total_hilos=Count('hilos')
     ).order_by('-total_hilos')[:10]
     hilos_recientes = Hilo.objects.select_related('usuario', 'categoria').order_by('-fecha')[:10]
+    videos = Video.objects.order_by('-fecha_publicacion')[:2]  
 
     return render(request, 'hilos/index.html', {
         'categorias': categorias,
         'usuarios_destacados': usuarios_destacados,
-        'hilos_recientes': hilos_recientes
+        'hilos_recientes': hilos_recientes,
+        'videos': videos
     })
-
 def toggle_like(request, respuesta_id):
     if not request.user.is_authenticated:
         return redirect('login')

@@ -5,6 +5,23 @@
 {% block main_class %}forum-layout container{% endblock %}
 {% block content %}
 <div class="forum-main">
+   {# 1. Sección de VIDEOS destacados al principio #}
+   {% if videos %}
+   <h2 class="mb-4">🎬 Videos destacados</h2>
+   {% for video in videos %}
+   <div class="thread video-card">
+      <video class="hover-video" controls loop preload="metadata">
+         <source src="{{ video.archivo.url }}" type="video/mp4">
+         Tu navegador no soporta video HTML5.
+      </video>
+      <p><strong>{{ video.titulo }}</strong><br>
+         <small>Por @{{ video.autor.username }}</small></p>
+      <p>{{ video.descripcion|truncatewords:20 }}</p>
+   </div>
+   {% endfor %}
+   {% endif %}
+
+   {# 2. Aquí vienen las categorías como siempre #}
    <h2 class="mb-4">🧩 Hilos más destacados</h2>
    {% for categoria in categorias %}
    <section class="category-card">
@@ -16,9 +33,7 @@
          {% if hilo.imagen %}
          <img src="{{ hilo.imagen.url }}" alt="Imagen del hilo" class="thumb">
          {% endif %}
-         <small>
-         Por <strong>@{{ hilo.usuario.username }}</strong> — {{ hilo.fecha|date:"d/m/Y" }}
-         </small>
+         <small>Por <strong>@{{ hilo.usuario.username }}</strong> — {{ hilo.fecha|date:"d/m/Y" }}</small>
       </div>
       {% empty %}
       <p class="text-muted">No hay hilos en esta categoría.</p>
