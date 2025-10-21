@@ -14,3 +14,5 @@
 .confirm-container .btn-danger:hover{background:#b91c1c;transform:translateY(-1px);box-shadow:0 3px 8px rgba(220,38,38,.4)} 
 .confirm-container .btn-brand{color:#3b82f6;font-weight:600;text-decoration:none;transition:color .25s ease} 
 .confirm-container .btn-brand:hover{color:#60a5fa}
+.confirm-container .btn-secondary{background:linear-gradient(90deg,#b0b0b3,#8b8b91);color:#fff;border:none;border-radius:8px;padding:.6rem 1.2rem;min-width:77px;font-weight:600;cursor:pointer;transition:all .25s ease;text-align:center;display:inline-flex;align-items:center;justify-content:center;line-height:1} 
+.confirm-container .btn-secondary:hover{background:#71717a;transform:translateY(-1px);box-shadow:0 3px 8px rgba(113,117,122,.4)}

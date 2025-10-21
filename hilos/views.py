@@ -126,14 +126,17 @@ def eliminar_hilo(request, hilo_id):
     hilo = get_object_or_404(Hilo, id=hilo_id)
     if request.user != hilo.usuario and not request.user.is_staff:
         return HttpResponse("No tienes permiso para eliminar este hilo.", status=403)
+    origen = request.GET.get("origen", "lista_hilos")
     if request.method == 'POST':
         hilo.delete()
         messages.success(request, "Hilo eliminado correctamente.")
-        if request.user.is_staff:
-            return redirect('lista_hilos')
+        if origen == "mis_hilos":
+            return redirect("mis_hilos")
         else:
-            return redirect('mis_hilos') 
-    return render(request, 'hilos/confirm_delete.html', {'hilo': hilo})
+            return redirect("lista_hilos")
+
+    return render(request, "hilos/confirm_delete.html", {"hilo": hilo, "origen": origen})
+
 
 @login_required
 def mis_hilos(request):

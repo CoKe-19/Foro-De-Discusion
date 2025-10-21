@@ -27,7 +27,7 @@
                <td class="acciones-cell">
                   <a href="{% url 'detalle_hilo' hilo.id %}" class="btn-view">Ver</a>
                   <a href="{% url 'editar_hilo' hilo.id %}" class="btn-edit">Editar</a>
-                  <a href="{% url 'eliminar_hilo' hilo.id %}" class="btn-delete">Eliminar</a>
+                  <a href="{% url 'eliminar_hilo' hilo.id %}?origen=mis_hilos" class="btn-delete">Eliminar</a>
                </td>
             </tr>
             {% endfor %}

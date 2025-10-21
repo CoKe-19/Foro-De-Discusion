@@ -8,7 +8,11 @@
    <form method="post">
       {% csrf_token %}
       <button type="submit" class="btn-danger">Sí, eliminar</button>
+      {% if origen == "mis_hilos" %}
+      <a href="{% url 'mis_hilos' %}" class="btn btn-secondary">Cancelar</a>
+      {% else %}
       <a href="{% url 'lista_hilos' %}" class="btn btn-secondary">Cancelar</a>
+      {% endif %}
    </form>
    {% elif respuesta %}
    {% if user == respuesta.usuario %}
