@@ -10,3 +10,5 @@
 .btn-edit{background:linear-gradient(90deg,#facc15,#eab308);color:#111} 
 .btn-delete{background:linear-gradient(90deg,#ef4444,#dc2626);color:#fff} 
 .btn-view:hover,.btn-edit:hover,.btn-delete:hover{transform:translateY(-1px)}
+.btn-primary {display:inline-block;background:var(--accent,#007bff);color:#fff;font-weight:600;padding:0.45rem 0.9rem;font-size:0.9rem;border-radius:8px;text-decoration:none;transition:all 0.2s ease-in-out;box-shadow:0 2px 5px rgba(0,0,0,0.2);} .btn-primary:hover {background:#0056b3;transform:translateY(-1px);box-shadow:0 4px 8px rgba(0,0,0,0.25);} .table-header {display:flex;justify-content:flex-start;align-items:center;gap:1rem;margin-bottom:1.2rem;}
+

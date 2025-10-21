@@ -5,7 +5,7 @@
 <div class="container d-flex justify-content-center align-items-center" style="min-height:70vh;">
    <div class="form" style="max-width:420px; width:100%;">
       <h2 class="text-center mb-3">🔐 Iniciar Sesión</h2>
-      <p class="text-center text-muted mb-4">Bienvenido de nuevo al foro GamerCoke</p>
+      <p class="text-center text-muted mb-4">Bienvenido al Foro Gamer</p>
       <form method="post" class="form-body">
          {% csrf_token %}
          {{ form.as_p }}
@@ -13,7 +13,7 @@
       </form>
       <p class="text-center mt-3 mb-0">
          ¿No tienes una cuenta?  
-         <a href="{% url 'registrar_usuario' %}" class="text-accent">Regístrate aquí</a>
+         <a href="{% url 'registrar_usuario' %}" class="btn-primary">Regístrate aquí</a>
       </p>
    </div>
 </div>
